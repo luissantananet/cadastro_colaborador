@@ -67,6 +67,10 @@ def chamacadastrouser():
 def chamatelainicial():
     frm_cadUser.close()
     frm_inicial.show()
+def chamapesquisar():
+    frm_pesquisarColab.show()
+def chamacadColab():
+    frm_cadColab.show()
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
@@ -78,10 +82,12 @@ if __name__ == '__main__':
     frm_login.btnlogin.clicked.connect(funcao_login)
     # botões da tela principal 
     frm_inicial.actionUser.triggered.connect(chamacadastrouser)
+    frm_inicial.actionCadastrar.triggered.connect(chamacadColab)
+    frm_inicial.actionPesquisar.triggered.connect(chamapesquisar)
     frm_inicial.label.setPixmap(QtGui.QPixmap(r'.\logo\do-utilizador.png'))
-    frm_inicial.label.resize(550,550)
+    frm_inicial.label.resize(520,550)
     # botões da tela cadastro de user
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
-    frm_login.show()
+    frm_inicial.show()
     App.exec()
