@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>560</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>591</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Tela Inicial</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>550</width>
+      <height>550</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>560</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCadastro">
+    <property name="title">
+     <string>Cadastro</string>
+    </property>
+    <widget class="QMenu" name="menuColaborador">
+     <property name="title">
+      <string>Colaborador</string>
+     </property>
+     <addaction name="actionPesquisar"/>
+     <addaction name="actionCadastrar"/>
+    </widget>
+    <addaction name="menuColaborador"/>
+    <addaction name="actionUser"/>
+   </widget>
+   <widget class="QMenu" name="menuRelatorio">
+    <property name="title">
+     <string>Relatorio</string>
+    </property>
+    <addaction name="actionRelat_rio_por_Colaborador"/>
+   </widget>
+   <widget class="QMenu" name="menuConfirga_o">
+    <property name="title">
+     <string>Confirgação</string>
+    </property>
+    <addaction name="actionTrocar_Logo"/>
+   </widget>
+   <addaction name="menuCadastro"/>
+   <addaction name="menuRelatorio"/>
+   <addaction name="menuConfirga_o"/>
+  </widget>
+  <action name="actionUser">
+   <property name="text">
+    <string>Usuário</string>
+   </property>
+  </action>
+  <action name="actionRelat_rio_por_Colaborador">
+   <property name="text">
+    <string>Relatório por Colaborador</string>
+   </property>
+  </action>
+  <action name="actionPesquisar">
+   <property name="text">
+    <string>Pesquisar</string>
+   </property>
+  </action>
+  <action name="actionCadastrar">
+   <property name="text">
+    <string>Cadastrar</string>
+   </property>
+  </action>
+  <action name="actionTrocar_Logo">
+   <property name="text">
+    <string>Trocar Logo</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
