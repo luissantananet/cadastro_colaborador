@@ -1,18 +1,13 @@
-import sqlite3
 
-banco = sqlite3.connect('banco_cadastro.db') 
-cursor = banco.cursor()
 
-nome_user = 'adm'
-key = 'adm'
+import pandas as pd
+tabela = pd.read_excel(f'.\dados\cidades.xls')
+"""estado = input("digite o estado: ")
+print(tabela.loc[tabela["UF"]=="{}".format(estado)])"""
 
-#cursor = banco.cursor()
-cursor.execute(f"SELECT * FROM cadastro_user where login='{nome_user}';")
-senha_db = cursor.fetchall()
-nome = len(senha_db)
 
-if nome == 0:
-    print(nome)
-    cursor.execute("INSERT INTO cadastro_user VALUES(1, 'administrador', 'adm', 'adm');")
-else:
-    print("diferente de 0")
+uf_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "UF")
+cidade_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "cidade")
+uf = uf_tabela.columns.values
+print(uf_tabela.columns.values)
+

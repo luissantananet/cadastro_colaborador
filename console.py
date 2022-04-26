@@ -1,10 +1,14 @@
+import cProfile
 import os
 import sqlite3
-from PyQt5 import uic, QtWidgets, QtGui
+from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-
+import pandas as pd
+uf_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "UF")
+uf = uf_tabela.loc['SP']
+cidade = uf_tabela[['cidade']]
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
@@ -26,6 +30,17 @@ nome_ = len(nome)
 if nome_ == 0:
     cursor.execute("INSERT INTO cadastro_user VALUES(1, 'administrador', 'adm', 'adm');")
 banco.commit()
+def cadastro_colaborador():
+    nomecompleto = frm_cadColab.edt_nome.text()
+    funcao = frm_cadColab.comboBox_funcao.curentText()
+    cpf = frm_cadColab.edt_cpf.text()
+    rg = frm_cadColab.edt_rg.text()
+    cnh = frm_cadColab.edt_cnh.text()
+    endereco = frm_cadColab.edt_endereco.text()
+    bairro = frm_cadColab.edt_bairro.text()
+    cidade = frm_cadColab.comboBox__cidade.curentText()
+    uf = frm_cadColab.comboBox__uf.curentText()
+
 
 def funcao_login():
     nome_user = frm_login.lineuser.text()
@@ -61,6 +76,8 @@ def cadastro_user():
             QMessageBox.about(frm_cadUser,"ERRO", "As senhas digitadas estão diferentes")
     else:
         QMessageBox.about(frm_cadUser,"ERRO", "digite os dados!")
+def aria():
+    pass
 def chamacadastrouser():
     frm_cadUser.show()
     frm_inicial.close()
@@ -89,5 +106,9 @@ if __name__ == '__main__':
     # botões da tela cadastro de user
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
+    # botões da tela cadastro colaborador
+    frm_cadColab.comboBox_funcao.addItems(["Motorista","Coferente","Aux. ADM"])
+    frm_cadColab.comboBox_cidade.addItems([str(cidade)])
+    frm_cadColab.comboBox_uf.addItems(uf)
     frm_inicial.show()
     App.exec()
