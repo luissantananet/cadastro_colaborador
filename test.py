@@ -1,13 +1,25 @@
 
-
+import csv
 import pandas as pd
-tabela = pd.read_excel(f'.\dados\cidades.xls')
-"""estado = input("digite o estado: ")
-print(tabela.loc[tabela["UF"]=="{}".format(estado)])"""
+from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 
 
-uf_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "UF")
-cidade_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "cidade")
-uf = uf_tabela.columns.values
-print(uf_tabela.columns.values)
+uf_tabela = pd.read_excel(f'.\dados\cidades.xls')
+uf = uf_tabela["UF"]
+cidade = uf_tabela["cidade"]
+
+if __name__ == '__main__':
+    App = QtWidgets.QApplication([])
+    
+    frm_cadColab = uic.loadUi(r'.\frms\frm_cadastroColab.ui')
+    # botões da tela cadastro colaborador
+    frm_cadColab.comboBox_funcao.addItems(["Motorista","Coferente","Aux. ADM"])
+    frm_cadColab.comboBox_cidade.addItems(cidade)
+    frm_cadColab.comboBox_uf.addItems(uf)
+    frm_cadColab.show()
+    App.exec()
+
+
+
 

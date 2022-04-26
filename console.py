@@ -6,9 +6,10 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 import pandas as pd
-uf_tabela = pd.read_excel(f'.\dados\cidades.xls', index_col= "UF")
-uf = uf_tabela.loc['SP']
-cidade = uf_tabela[['cidade']]
+uf_tabela = pd.read_excel(f'.\dados\cidades.xls')
+cidade_tabela = pd.read_excel(f'.\dados\cidades.xls')
+uf = uf_tabela["UF"]
+cidade = cidade_tabela["cidade"]
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
@@ -108,7 +109,7 @@ if __name__ == '__main__':
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
     # botões da tela cadastro colaborador
     frm_cadColab.comboBox_funcao.addItems(["Motorista","Coferente","Aux. ADM"])
-    frm_cadColab.comboBox_cidade.addItems([str(cidade)])
+    frm_cadColab.comboBox_cidade.addItems(cidade)
     frm_cadColab.comboBox_uf.addItems(uf)
     frm_inicial.show()
     App.exec()
