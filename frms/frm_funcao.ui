@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>cad_funcao</class>
+ <widget class="QMainWindow" name="cad_funcao">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>272</width>
+    <height>146</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>272</width>
+    <height>146</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>272</width>
+    <height>146</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Função</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btn_salvar">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>90</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Salvar</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="edt_funcao">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>211</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
