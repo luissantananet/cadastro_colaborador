@@ -8,31 +8,20 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
 
-uf_tabela = pd.read_excel(f'.\dados\cidades.xls')
-cidade = uf_tabela["cidade"]
-uf = uf_tabela["UF"]
-funcaos_ = []
-cursor.execute("SELECT descricao FROM funcao;")
-dados_lidos = cursor.fetchall()
+tabela = pd.read_excel(f'.\dados\cidades.xls')
+cidade = tabela.loc[tabela["UF"]=="RS"]
+uf = tabela.loc[tabela["UF"]=="RS"]
+tabela_funcao = pd.read_excel(r'.\dados\funcoes.xlsx')
 
-funcaos_ = dados_lidos
-print(type(funcaos_))
-print(funcaos_)
-print(funcaos_[3])
 
 
 def cadastra_funcao():
-    descs = frm_funcao.edt_funcao.text()
-    try:
-        # cria o bando se ele nao exixtir 
-        cursor.execute("CREATE TABLE IF NOT EXISTS funcao ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao varchar(100) NOT NULL);")
-        cursor.execute("INSERT INTO funcao VALUES (NULL,'"+descs+"');")
-        QMessageBox.information(frm_cadColab, "Aviso", "Função cadastrado com sucesso")
-    except sqlite3.Error as erro:
-        print("ERRO","Erro ao inserir os dados: ",erro)
-    banco.commit()
+    
+    tabela.to_excel(r'.\dados\funcoes.xlsx', index = False)
 def chamacadfuncao():
     frm_funcao.show()
+    frm_funcao.edt_funcao.setText("")
+    
 def chamacadColab():
     frm_cadColab.show()
 def fechacolab():
@@ -51,19 +40,12 @@ if __name__ == '__main__':
     frm_funcao.btn_salvar.clicked.connect(cadastra_funcao)
 
     # botões da tela cadastro colaborador
-    
-    frm_cadColab.comboBox_uf. clearEditText()
-    frm_cadColab.comboBox_uf.addItems(uf_tabela["UF"])
-    uf = frm_cadColab.comboBox_uf.currentText()
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
-    cid = uf_tabela["UF"] == str(uf)
-   
+    frm_cadColab.comboBox_uf.addItems(uf["UF"])
+    frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
+    frm_cadColab.comboBox_funcao.addItems(tabela_funcao["descricao"])
+    
 
-    frm_cadColab.comboBox_cidade.addItems(cidade)
-    
-    
-    
-    frm_cadColab.comboBox_funcao.addItems (["t","e"])
 
     frm_cadColab.show()
     App.exec()
