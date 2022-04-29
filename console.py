@@ -7,10 +7,12 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 import pandas as pd
-uf_tabela = pd.read_excel(f'.\dados\cidades.xls')
-cidade_tabela = pd.read_excel(f'.\dados\cidades.xls')
-uf = uf_tabela["UF"]
-cidade = cidade_tabela["cidade"]
+tabela = pd.read_excel(f'.\dados\cidades.xls')
+cidade = tabela.loc[tabela["UF"]=="RS"]
+uf = tabela.loc[tabela["UF"]=="RS"]
+
+funcaos = ["Motorista","Coferente","Aux. ADM"]
+
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
@@ -123,6 +125,8 @@ def chamapesquisar():
     frm_pesquisarColab.show()
 def chamacadColab():
     frm_cadColab.show()
+def fechacolab():
+    frm_cadColab.close()
 def chamacadfuncao():
     frm_funcao.show()
 if __name__ == '__main__':
@@ -148,9 +152,11 @@ if __name__ == '__main__':
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
     # botões da tela cadastro colaborador
-    frm_cadColab.comboBox_funcao.addItems(["Motorista","Coferente","Aux. ADM"])
-    frm_cadColab.comboBox_cidade.addItems(cidade)
-    frm_cadColab.comboBox_uf.addItems(uf)
+    # botões da tela cadastro colaborador
+    frm_cadColab.btn_fechar.clicked.connect(fechacolab)
+    frm_cadColab.comboBox_funcao.addItems(funcaos)
+    frm_cadColab.comboBox_uf.addItems(uf["UF"])
+    frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
     frm_cadColab.btn_salvar.clicked.connect(cadastro_colaborador)
     frm_inicial.show()
     App.exec()
