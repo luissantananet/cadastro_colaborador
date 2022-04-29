@@ -11,19 +11,22 @@ cursor = banco.cursor()
 tabela = pd.read_excel(f'.\dados\cidades.xls')
 cidade = tabela.loc[tabela["UF"]=="RS"]
 uf = tabela.loc[tabela["UF"]=="RS"]
-tabela_funcao = pd.read_excel(r'.\dados\funcoes.xlsx')
+tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
 
 
 
 def cadastra_funcao():
+    descs = str(frm_funcao.edt_funcao.text())
+    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
+    tabelaf= tabelaf.append({'descricao': descs}, ignore_index=True)
+    tabelaf.to_excel(r'.\dados\funcoes.xlsx', index = False)
     
-    tabela.to_excel(r'.\dados\funcoes.xlsx', index = False)
 def chamacadfuncao():
     frm_funcao.show()
     frm_funcao.edt_funcao.setText("")
-    
 def chamacadColab():
     frm_cadColab.show()
+    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
 def fechacolab():
     frm_cadColab.close()
 if __name__ == '__main__':
@@ -43,11 +46,11 @@ if __name__ == '__main__':
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
     frm_cadColab.comboBox_uf.addItems(uf["UF"])
     frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
-    frm_cadColab.comboBox_funcao.addItems(tabela_funcao["descricao"])
+    frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
     
 
 
-    frm_cadColab.show()
+    frm_inicial.show()
     App.exec()
 
 

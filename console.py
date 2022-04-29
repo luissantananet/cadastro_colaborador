@@ -10,8 +10,8 @@ import pandas as pd
 tabela = pd.read_excel(f'.\dados\cidades.xls')
 cidade = tabela.loc[tabela["UF"]=="RS"]
 uf = tabela.loc[tabela["UF"]=="RS"]
-
-funcaos = ["Motorista","Coferente","Aux. ADM"]
+tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
+#funcaos = ["Motorista","Coferente","Aux. ADM"]
 
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
@@ -105,14 +105,11 @@ def cadastro_user():
     else:
         QMessageBox.about(frm_cadUser,"ERRO", "digite os dados!")
 def cadastra_funcao():
-    descs = frm_funcao.edt_funcao.text()
-    try:
-        # cria o bando se ele nao exixtir 
-        cursor.execute("CREATE TABLE IF NOT EXISTS funcao ( id INTEGER PRIMARY KEY AUTOINCREMENT, descricao varchar(100) NOT NULL);")
-        cursor.execute("INSERT INTO funcao VALUES (NULL,'"+descs+"');")
-        QMessageBox.information(frm_cadColab, "Aviso", "Função cadastrado com sucesso")
-    except sqlite3.Error as erro:
-        print("ERRO","Erro ao inserir os dados: ",erro)
+    descs = str(frm_funcao.edt_funcao.text())
+    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
+    tabelaf= tabelaf.append({'descricao': descs}, ignore_index=True)
+    tabelaf.to_excel(r'.\dados\funcoes.xlsx', index = False)
+    frm_funcao.edt_funcao.setText("")
 def aria():
     pass
 def chamacadastrouser():
@@ -127,8 +124,10 @@ def chamacadColab():
     frm_cadColab.show()
 def fechacolab():
     frm_cadColab.close()
+    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
 def chamacadfuncao():
     frm_funcao.show()
+    frm_funcao.edt_funcao.setText("")
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
@@ -154,7 +153,7 @@ if __name__ == '__main__':
     # botões da tela cadastro colaborador
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
-    frm_cadColab.comboBox_funcao.addItems(funcaos)
+    frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
     frm_cadColab.comboBox_uf.addItems(uf["UF"])
     frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
     frm_cadColab.btn_salvar.clicked.connect(cadastro_colaborador)
