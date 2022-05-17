@@ -60,15 +60,17 @@ def cadastro_colaborador():
         # verifica se o colaborador já existe 
         cursor.execute("SELECT cpf FROM cadastro_colaborador")
         cpf_ = cursor.fetchall()
+        banco.commit()
         if not cpf == cpf_:
             # inserir dados na tabela
-            cursor.execute("INSERT INTO cadastro_colaborador(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"';)")
+            cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"')")
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador cadastrado com sucesso")
         else:
             cursor.execute(f"UPDATE cadastro_colaborador SET nome_completa = {nomecompleto}, funcao = {funcao},cpf = {cpf}, rg = {rg}, cnh = {cnh}, endereco = {endereco}, bairro = {bairro}, cidade = {cidade}, uf = {uf} WHERE cpf = {cpf};")
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador atualizado com sucesso")
     except sqlite3.Error as erro:
-        QMessageBox.about(frm_cadColab, "ERRO","Erro ao inserir os dados: ",erro)
+        print("Erro ao inserir os dados: ",erro)
+        QMessageBox.about(frm_cadColab, "ERRO","Erro ao inserir os dados")
     banco.commit()    
 def funcao_login():
     nome_user = frm_login.lineuser.text()
