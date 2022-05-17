@@ -7,52 +7,16 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
+cursor.execute("SELECT cpf FROM cadastro_colaborador")
+cpf_ = cursor.fetchall()
+banco.commit()
 
-tabela = pd.read_excel(f'.\dados\cidades.xls')
-cidade = tabela.loc[tabela["UF"]=="RS"]
-uf = tabela.loc[tabela["UF"]=="RS"]
-tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
-
-
-
-def cadastra_funcao():
-    descs = str(frm_funcao.edt_funcao.text())
-    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
-    tabelaf= tabelaf.append({'descricao': descs}, ignore_index=True)
-    tabelaf.to_excel(r'.\dados\funcoes.xlsx', index = False)
-    
-def chamacadfuncao():
-    frm_funcao.show()
-    frm_funcao.edt_funcao.setText("")
-def chamacadColab():
-    frm_cadColab.show()
-    tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
-def fechacolab():
-    frm_cadColab.close()
-if __name__ == '__main__':
-    App = QtWidgets.QApplication([])
-    frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
-    frm_cadColab = uic.loadUi(r'.\frms\frm_cadastroColab.ui')
-    frm_funcao = uic.loadUi(r'.\frms\frm_funcao.ui')
-    frm_inicial.actionCadastrar.triggered.connect(chamacadColab)
-    frm_inicial.actionCadastrar_Fun.triggered.connect(chamacadfuncao)
-    frm_inicial.label.setPixmap(QtGui.QPixmap(r'.\logo\do-utilizador.png'))
-    frm_inicial.label.resize(520,550)
-
-    # botões da tela cadastro funcao
-    frm_funcao.btn_salvar.clicked.connect(cadastra_funcao)
-
-    # botões da tela cadastro colaborador
-    frm_cadColab.btn_fechar.clicked.connect(fechacolab)
-    frm_cadColab.comboBox_uf.addItems(uf["UF"])
-    frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
-    frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
-    
-
-
-    frm_inicial.show()
-    App.exec()
-
-
-
+cpf = '07261662437'
+test = (cpf_[0])
+if cpf == cpf_:
+    print("cpf correto" )
+else:
+    print('cpf incorreto')
+print(type(test))
+print(type)
 
