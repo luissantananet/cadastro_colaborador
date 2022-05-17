@@ -1,3 +1,4 @@
+from email.utils import collapse_rfc2231_value
 import os
 import sqlite3
 from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
@@ -12,7 +13,7 @@ cidade = tabela.loc[tabela["UF"]=="RS"]
 uf = tabela.loc[tabela["UF"]=="RS"]
 tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
 #funcaos = ["Motorista","Coferente","Aux. ADM"]
-
+id_colab = 0
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
@@ -35,6 +36,7 @@ if nome_ == 0:
     cursor.execute("INSERT INTO cadastro_user VALUES(1, 'administrador', 'adm', 'adm');")
 banco.commit()
 def cadastro_colaborador():
+    id = frm_cadColab.edt_id.text()
     nomecompleto = frm_cadColab.edt_nome.text()
     funcao = frm_cadColab.comboBox_funcao.currentText()
     cpf = frm_cadColab.edt_cpf.text()
@@ -61,30 +63,22 @@ def cadastro_colaborador():
         cursor.execute("SELECT cpf FROM cadastro_colaborador")
         cpf_ = cursor.fetchall()
         banco.commit()
-        if not cpf == cpf_:
+        if id == "":
             # inserir dados na tabela
             cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"')")
-            frm_cadColab.edt_nome.setText()
-            frm_cadColab.comboBox_funcao.setText()
-            frm_cadColab.edt_cpf.setText()
-            frm_cadColab.edt_rg.setText()
-            frm_cadColab.edt_cnh.setText()
-            frm_cadColab.edt_endereco.setText()
-            frm_cadColab.edt_bairro.text()
-            frm_cadColab.comboBox_cidade.setText()
-            frm_cadColab.comboBox_uf.setText()
+            frm_cadColab.edt_nome.setText('')
+            frm_cadColab.edt_cpf.setText('')
+            frm_cadColab.edt_rg.setText('')
+            frm_cadColab.edt_cnh.setText('')
+            frm_cadColab.edt_endereco.setText('')           
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador cadastrado com sucesso")
         else:
             cursor.execute(f"UPDATE cadastro_colaborador SET nome_completa = {nomecompleto}, funcao = {funcao},cpf = {cpf}, rg = {rg}, cnh = {cnh}, endereco = {endereco}, bairro = {bairro}, cidade = {cidade}, uf = {uf} WHERE cpf = {cpf};")
-            frm_cadColab.edt_nome.setText()
-            frm_cadColab.comboBox_funcao.setText()
-            frm_cadColab.edt_cpf.setText()
-            frm_cadColab.edt_rg.setText()
-            frm_cadColab.edt_cnh.setText()
-            frm_cadColab.edt_endereco.setText()
-            frm_cadColab.edt_bairro.text()
-            frm_cadColab.comboBox_cidade.setText()
-            frm_cadColab.comboBox_uf.setText()
+            frm_cadColab.edt_nome.setText('')
+            frm_cadColab.edt_cpf.setText('')
+            frm_cadColab.edt_rg.setText('')
+            frm_cadColab.edt_cnh.setText('')
+            frm_cadColab.edt_endereco.setText('')
             frm_cadColab.close()
             frm_pesquisarColab.show()
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador atualizado com sucesso")
@@ -151,6 +145,30 @@ def chamapesquisar():
         for j in range(0, 10):
            frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     frm_pesquisarColab.show()
+def pesquisar_colab():
+    pass
+
+def editar_colab():
+    global id_colab
+    linha =frm_pesquisarColab.tableWidget.currentRow()
+    cursor.execute("SELECT * FROM cadastro_colaborador")
+    dados_lidos = cursor.fetchall()
+    banco.commit()
+    valor_id = dados_lidos[linha][0]
+    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
+    colab = cursor.fetchall()
+    frm_cadColab.edt_id.setText(str(colab[0][0]))
+    frm_cadColab.edt_nome.setText(colab[0][1])
+    frm_cadColab.comboBox_funcao.addItem(colab[0][2])
+    frm_cadColab.edt_cpf.setText(colab[0][3])
+    frm_cadColab.edt_rg.setText(colab[0][4])
+    frm_cadColab.edt_cnh.setText(colab[0][5])
+    frm_cadColab.edt_endereco.setText(colab[0][6])
+    frm_cadColab.edt_bairro.setText(colab[0][7])
+    frm_cadColab.comboBox_cidade.addItems(colab[0][8])
+    frm_cadColab.comboBox_uf.addItem(colab[0][9])
+    id_colab = valor_id
+    frm_cadColab.show()
 def chamacadColab():
     frm_cadColab.show()
 def fechacolab():
@@ -181,7 +199,9 @@ if __name__ == '__main__':
     # botões da tela cadastro de user
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
-    # botões da tela cadastro colaborador
+    # botões da tela pesquisar colaborador
+    frm_pesquisarColab.btn_pesquisar.clicked.connect(pesquisar_colab)
+    frm_pesquisarColab.btn_editar.clicked.connect(editar_colab)
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
     frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
