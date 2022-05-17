@@ -64,9 +64,29 @@ def cadastro_colaborador():
         if not cpf == cpf_:
             # inserir dados na tabela
             cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"')")
+            frm_cadColab.edt_nome.setText()
+            frm_cadColab.comboBox_funcao.setText()
+            frm_cadColab.edt_cpf.setText()
+            frm_cadColab.edt_rg.setText()
+            frm_cadColab.edt_cnh.setText()
+            frm_cadColab.edt_endereco.setText()
+            frm_cadColab.edt_bairro.text()
+            frm_cadColab.comboBox_cidade.setText()
+            frm_cadColab.comboBox_uf.setText()
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador cadastrado com sucesso")
         else:
             cursor.execute(f"UPDATE cadastro_colaborador SET nome_completa = {nomecompleto}, funcao = {funcao},cpf = {cpf}, rg = {rg}, cnh = {cnh}, endereco = {endereco}, bairro = {bairro}, cidade = {cidade}, uf = {uf} WHERE cpf = {cpf};")
+            frm_cadColab.edt_nome.setText()
+            frm_cadColab.comboBox_funcao.setText()
+            frm_cadColab.edt_cpf.setText()
+            frm_cadColab.edt_rg.setText()
+            frm_cadColab.edt_cnh.setText()
+            frm_cadColab.edt_endereco.setText()
+            frm_cadColab.edt_bairro.text()
+            frm_cadColab.comboBox_cidade.setText()
+            frm_cadColab.comboBox_uf.setText()
+            frm_cadColab.close()
+            frm_pesquisarColab.show()
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador atualizado com sucesso")
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
@@ -121,6 +141,15 @@ def chamatelainicial():
     frm_cadUser.close()
     frm_inicial.show()
 def chamapesquisar():
+    cursor.execute("SELECT * FROM cadastro_colaborador")
+    dados_lidos = cursor.fetchall()
+    banco.commit()
+    frm_pesquisarColab.tableWidget.setRowCount(len(dados_lidos))
+    frm_pesquisarColab.tableWidget.setColumnCount(10)
+
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 10):
+           frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     frm_pesquisarColab.show()
 def chamacadColab():
     frm_cadColab.show()
