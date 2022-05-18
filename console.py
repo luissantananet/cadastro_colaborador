@@ -47,6 +47,8 @@ def cadastro_colaborador():
     cidade = frm_cadColab.comboBox_cidade.currentText()
     uf = frm_cadColab.comboBox_uf.currentText()
     try:
+        banco = sqlite3.connect('banco_cadastro.db') 
+        cursor = banco.cursor()
         # cria o bando se ele nao exixtir 
         cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -60,12 +62,14 @@ def cadastro_colaborador():
         cidade varchar(100), 
         uf varchar(2));""")
         # verifica se o colaborador já existe 
-        cursor.execute("SELECT cpf FROM cadastro_colaborador")
+        """cursor.execute("SELECT cpf FROM cadastro_colaborador")
         cpf_ = cursor.fetchall()
-        banco.commit()
+        banco.commit()"""
         if id == "":
             # inserir dados na tabela
             cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"')")
+            banco.commit()
+            banco.close()
             frm_cadColab.edt_nome.setText('')
             frm_cadColab.edt_cpf.setText('')
             frm_cadColab.edt_rg.setText('')
@@ -73,7 +77,9 @@ def cadastro_colaborador():
             frm_cadColab.edt_endereco.setText('')           
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador cadastrado com sucesso")
         else:
-            cursor.execute(f"UPDATE cadastro_colaborador SET nome_completa = {nomecompleto}, funcao = {funcao},cpf = {cpf}, rg = {rg}, cnh = {cnh}, endereco = {endereco}, bairro = {bairro}, cidade = {cidade}, uf = {uf} WHERE cpf = {cpf};")
+            cursor.execute("UPDATE cadastro_colaborador SET nome_completa = '"+nomecompleto+"', funcao = '"+funcao+"',cpf = '"+cpf+"', rg = '"+rg+"', cnh = '"+cnh+"', endereco = '"+endereco+"', bairro = '"+endereco+"', cidade = '"+cidade+"', uf = '"+uf+"' WHERE id = '"+id+"'")
+            banco.commit()
+            banco.close()
             frm_cadColab.edt_nome.setText('')
             frm_cadColab.edt_cpf.setText('')
             frm_cadColab.edt_rg.setText('')
@@ -85,7 +91,8 @@ def cadastro_colaborador():
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
         QMessageBox.about(frm_cadColab, "ERRO","Erro ao inserir os dados")
-    banco.commit()    
+        banco.close()
+    #banco.commit()    
 def funcao_login():
     nome_user = frm_login.lineuser.text()
     key = frm_login.linekey.text()
@@ -165,7 +172,7 @@ def editar_colab():
     frm_cadColab.edt_cnh.setText(colab[0][5])
     frm_cadColab.edt_endereco.setText(colab[0][6])
     frm_cadColab.edt_bairro.setText(colab[0][7])
-    frm_cadColab.comboBox_cidade.addItems(colab[0][8])
+    frm_cadColab.comboBox_cidade.addItem(str(colab[0][8]))
     frm_cadColab.comboBox_uf.addItem(colab[0][9])
     id_colab = valor_id
     frm_cadColab.show()
