@@ -25,7 +25,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador (
         cpf varchar(100)NOT NULL,
         rg varchar(100), 
         cnh varchar(100), 
-        endereco varchar(100), 
+        endereco varchar(100),
+        numero varchar(10), 
         bairro varchar(100), 
         cidade varchar(100), 
         uf varchar(2));""")
@@ -43,6 +44,7 @@ def cadastro_colaborador():
     rg = frm_cadColab.edt_rg.text()
     cnh = frm_cadColab.edt_cnh.text()
     endereco = frm_cadColab.edt_endereco.text()
+    numero = frm_cadColab.edt_numeroEnd.text()
     bairro = frm_cadColab.edt_bairro.text()
     cidade = frm_cadColab.comboBox_cidade.currentText()
     uf = frm_cadColab.comboBox_uf.currentText()
@@ -57,7 +59,8 @@ def cadastro_colaborador():
         cpf varchar(100)NOT NULL,
         rg varchar(100), 
         cnh varchar(100), 
-        endereco varchar(100), 
+        endereco varchar(100),
+        numero varchar(10),
         bairro varchar(100), 
         cidade varchar(100), 
         uf varchar(2));""")
@@ -67,7 +70,7 @@ def cadastro_colaborador():
         banco.commit()"""
         if id == "":
             # inserir dados na tabela
-            cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+bairro+"','"+cidade+"','"+uf+"')")
+            cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+numero+"','"+bairro+"','"+cidade+"','"+uf+"')")
             banco.commit()
             banco.close()
             frm_cadColab.edt_nome.setText('')
@@ -77,7 +80,7 @@ def cadastro_colaborador():
             frm_cadColab.edt_endereco.setText('')           
             QMessageBox.information(frm_cadColab, "Aviso", "Colaborador cadastrado com sucesso")
         else:
-            cursor.execute("UPDATE cadastro_colaborador SET nome_completa = '"+nomecompleto+"', funcao = '"+funcao+"',cpf = '"+cpf+"', rg = '"+rg+"', cnh = '"+cnh+"', endereco = '"+endereco+"', bairro = '"+endereco+"', cidade = '"+cidade+"', uf = '"+uf+"' WHERE id = '"+id+"'")
+            cursor.execute("UPDATE cadastro_colaborador SET nome_completa = '"+nomecompleto+"', funcao = '"+funcao+"',cpf = '"+cpf+"', rg = '"+rg+"', cnh = '"+cnh+"', endereco = '"+endereco+"', numero = '"+numero+"', bairro = '"+endereco+"', cidade = '"+cidade+"', uf = '"+uf+"' WHERE id = '"+id+"'")
             banco.commit()
             banco.close()
             frm_cadColab.edt_nome.setText('')
