@@ -174,9 +174,10 @@ def editar_colab():
     frm_cadColab.edt_rg.setText(colab[0][4])
     frm_cadColab.edt_cnh.setText(colab[0][5])
     frm_cadColab.edt_endereco.setText(colab[0][6])
-    frm_cadColab.edt_bairro.setText(colab[0][7])
-    frm_cadColab.comboBox_cidade.addItem(str(colab[0][8]))
-    frm_cadColab.comboBox_uf.addItem(colab[0][9])
+    frm_cadColab.edt_numeroEnd.setText(colab[0][7])
+    frm_cadColab.edt_bairro.setText(colab[0][8])
+    frm_cadColab.comboBox_cidade.addItem(str(colab[0][9]))
+    frm_cadColab.comboBox_uf.addItem(colab[0][10])
     id_colab = valor_id
     frm_cadColab.show()
 def chamacadColab():
