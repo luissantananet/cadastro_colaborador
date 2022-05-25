@@ -65,9 +65,6 @@ def cadastro_colaborador():
         cidade varchar(100), 
         uf varchar(2));""")
         # verifica se o colaborador já existe 
-        """cursor.execute("SELECT cpf FROM cadastro_colaborador")
-        cpf_ = cursor.fetchall()
-        banco.commit()"""
         if id == "":
             # inserir dados na tabela
             cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+nomecompleto+"','"+funcao+"','"+cpf+"','"+rg+"','"+cnh+"','"+endereco+"','"+numero+"','"+bairro+"','"+cidade+"','"+uf+"')")
@@ -188,6 +185,45 @@ def fechacolab():
 def chamacadfuncao():
     frm_funcao.show()
     frm_funcao.edt_funcao.setText("")
+def salvar_tabela():
+    diaria = frm_tabela.edt_diaria.text()
+    hextra = frm_tabela.edt_hextra.text()
+    vtrans = frm_tabela.edt_vtransp.text()
+    vresf = frm_tabela.edt_vref.text()
+    try:
+        banco = sqlite3.connect('banco_cadastro.db') 
+        cursor = banco.cursor()
+        # cria o bando se ele nao exixtir 
+        cursor.execute("""CREATE TABLE IF NOT EXISTS tabela ( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        diaria varchar(10)NOT NULL, 
+        hextra varchar(10)NOT NULL, 
+        vtransp varchar(100)NOT NULL,
+        vref varchar(100));""")
+        if id == "":
+            # inserir dados na tabela
+            cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+diaria+"','"+hextra+"','"+vtrans+"','"+vresf+"')")
+            banco.commit()
+            banco.close()
+            frm_tabela.edt_diaria.setText('')
+            frm_tabela.edt_hextra.setText('')
+            frm_tabela.edt_vtransp.setText('')
+            frm_tabela.edt_vref.setText('')
+            QMessageBox.information(frm_tabela, "Aviso", "Colaborador cadastrado com sucesso")
+        else:
+            cursor.execute("UPDATE cadastro_colaborador SET diaria = '"+diaria+"', hextra = '"+hextra+"',vtransp = '"+vtrans+"', vref = '"+vresf+"'")
+            banco.commit()
+            banco.close()
+            frm_tabela.edt_diaria.setText('')
+            frm_tabela.edt_hextra.setText('')
+            frm_tabela.edt_vtransp.setText('')
+            frm_tabela.edt_vref.setText('')
+            QMessageBox.information(frm_tabela, "Aviso", "Colaborador atualizado com sucesso")
+    except sqlite3.Error as erro:
+        print("Erro ao inserir os dados: ",erro)
+        QMessageBox.about(frm_tabela, "ERRO","Erro ao inserir os dados")
+        banco.close()
+
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
@@ -196,6 +232,9 @@ if __name__ == '__main__':
     frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColab.ui')
     frm_login = uic.loadUi(r'.\frms\frm_login.ui')
     frm_funcao = uic.loadUi(r'.\frms\frm_funcao.ui')
+    frm_tabela = uic.loadUi(r'.\frms\frm_tabela')
+    # botões da tela tabela
+    frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
     frm_funcao.btn_salvar.clicked.connect(cadastra_funcao)
     # botões da tela login
