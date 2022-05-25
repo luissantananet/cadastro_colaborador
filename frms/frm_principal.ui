@@ -72,12 +72,14 @@
      <string>Relatorio</string>
     </property>
     <addaction name="actionRelat_rio_por_Colaborador"/>
+    <addaction name="actionRegistro_Semanal"/>
    </widget>
    <widget class="QMenu" name="menuConfirga_o">
     <property name="title">
      <string>Confirgação</string>
     </property>
     <addaction name="actionTrocar_Logo"/>
+    <addaction name="actionTabelas"/>
    </widget>
    <addaction name="menuCadastro"/>
    <addaction name="menuRelatorio"/>
@@ -111,6 +113,16 @@
   <action name="actionCadastrar_Fun">
    <property name="text">
     <string>Cadastrar Função</string>
+   </property>
+  </action>
+  <action name="actionRegistro_Semanal">
+   <property name="text">
+    <string>Registro Semanal</string>
+   </property>
+  </action>
+  <action name="actionTabelas">
+   <property name="text">
+    <string>Tabelas</string>
    </property>
   </action>
  </widget>
