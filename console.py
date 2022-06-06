@@ -152,9 +152,10 @@ def chamapesquisar():
         for j in range(0, 10):
            frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     frm_pesquisarColab.show()
+def chamatabelas():
+    frm_tabela.show()
 def pesquisar_colab():
     pass
-
 def editar_colab():
     global id_colab
     linha =frm_pesquisarColab.tableWidget.currentRow()
@@ -186,10 +187,10 @@ def chamacadfuncao():
     frm_funcao.show()
     frm_funcao.edt_funcao.setText("")
 def salvar_tabela():
-    diaria = frm_tabela.edt_diaria.text()
-    hextra = frm_tabela.edt_hextra.text()
-    vtrans = frm_tabela.edt_vtransp.text()
-    vresf = frm_tabela.edt_vref.text()
+    diaria = frm_tabela.edt_diaria.text() # 85,00
+    hextra = frm_tabela.edt_hextra.text() # 16,00
+    vtrans = frm_tabela.edt_vtransp.text() # 12,30
+    vresf = frm_tabela.edt_vref.text() # 17,00
     try:
         banco = sqlite3.connect('banco_cadastro.db') 
         cursor = banco.cursor()
@@ -223,7 +224,26 @@ def salvar_tabela():
         print("Erro ao inserir os dados: ",erro)
         QMessageBox.about(frm_tabela, "ERRO","Erro ao inserir os dados")
         banco.close()
-
+def chamaregistro():
+    try:
+        banco = sqlite3.connect('banco_cadastro.db') 
+        cursor = banco.cursor()
+        cursor.execute("SELECT * FROM tabela")
+        dados_lidos = cursor.fetchall()
+        banco.commit()
+        if dados_lidos == 0:
+            frm_registro.edt_diaria.setText('')
+            frm_registro.edt_hextra.setText('')
+            frm_registro.edt_vtransp.setText('')
+            frm_registro.edt_vref.setText('')
+        else:
+            frm_registro.edt_diaria.setText(dados_lidos[0][1])
+            frm_registro.edt_hextra.setText(dados_lidos[0][2])
+            frm_registro.edt_vtransp.setText(dados_lidos[0][3])
+            frm_registro.edt_vref.setText(dados_lidos[0][4])
+    except sqlite3.Error as erro:
+        print("Erro ao inserir os dados: ",erro) 
+    frm_registro.show()
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
@@ -232,7 +252,10 @@ if __name__ == '__main__':
     frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColab.ui')
     frm_login = uic.loadUi(r'.\frms\frm_login.ui')
     frm_funcao = uic.loadUi(r'.\frms\frm_funcao.ui')
-    frm_tabela = uic.loadUi(r'.\frms\frm_tabela')
+    frm_tabela = uic.loadUi(r'.\frms\frm_tabelas.ui')
+    frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
+    # botões da tela registros
+    #frm_registro.tbn_salvar.clicked.connect()
     # botões da tela tabela
     frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
@@ -244,6 +267,8 @@ if __name__ == '__main__':
     frm_inicial.actionCadastrar.triggered.connect(chamacadColab)
     frm_inicial.actionPesquisar.triggered.connect(chamapesquisar)
     frm_inicial.actionCadastrar_Fun.triggered.connect(chamacadfuncao)
+    frm_inicial.actionTabelas.triggered.connect(chamatabelas)
+    frm_inicial.actionRegistro_Semanal.triggered.connect(chamaregistro)
     frm_inicial.label.setPixmap(QtGui.QPixmap(r'.\logo\do-utilizador.png'))
     frm_inicial.label.resize(520,550)
     # botões da tela cadastro de user
