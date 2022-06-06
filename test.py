@@ -1,5 +1,6 @@
 
 
+from msilib.schema import tables
 import pandas as pd
 import sqlite3
 from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
@@ -7,16 +8,16 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
-cursor.execute("SELECT cpf FROM cadastro_colaborador")
-cpf_ = cursor.fetchall()
+cursor.execute("select * from tabela")
+dados = cursor.fetchall()
 banco.commit()
+tables = len(dados)
 
-cpf = '07261662437'
-test = (cpf_[0])
-if cpf == cpf_:
-    print("cpf correto" )
+print(tables)
+
+if tables == 0:
+    print("ok")
 else:
-    print('cpf incorreto')
-print(type(test))
-print(type)
+    print("erro")
+
 

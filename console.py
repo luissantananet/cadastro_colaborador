@@ -197,11 +197,14 @@ def salvar_tabela():
         # cria o bando se ele nao exixtir 
         cursor.execute("""CREATE TABLE IF NOT EXISTS tabela ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        diaria varchar(10)NOT NULL, 
-        hextra varchar(10)NOT NULL, 
-        vtransp varchar(100)NOT NULL,
-        vref varchar(100));""")
-        if id == "":
+        diaria decimal(5,2) NOT NULL, 
+        hextra decimal(5,2) NOT NULL, 
+        vtransp decimal(5,2) NOT NULL,
+        vref decimal(5,2) NOT NULL);""")
+        cursor.execute("select * from tabela")
+        dados = cursor.fetchall()
+        tables = len(dados)
+        if tables == 0:
             # inserir dados na tabela
             cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+diaria+"','"+hextra+"','"+vtrans+"','"+vresf+"')")
             banco.commit()
