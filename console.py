@@ -153,6 +153,17 @@ def chamapesquisar():
            frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     frm_pesquisarColab.show()
 def chamatabelas():
+    try:
+        banco = sqlite3.connect('banco_cadastro.db') 
+        cursor = banco.cursor()
+        cursor.execute("select * from tabela")
+        dados_lidos = cursor.fetchall()
+        frm_tabela.edt_diaria.setText(str('%.2f'%dados_lidos[0][1]).replace('.',','))
+        frm_tabela.edt_hextra.setText(str('%.2f'%dados_lidos[0][2]).replace('.',','))
+        frm_tabela.edt_vtransp.setText(str('%.2f'%dados_lidos[0][3]).replace('.',','))
+        frm_tabela.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
+    except sqlite3.Error as erro:
+        print("Erro ao inserir os dados: ",erro)
     frm_tabela.show()
 def pesquisar_colab():
     pass
@@ -187,10 +198,10 @@ def chamacadfuncao():
     frm_funcao.show()
     frm_funcao.edt_funcao.setText("")
 def salvar_tabela():
-    diaria = frm_tabela.edt_diaria.text() # 85,00
-    hextra = frm_tabela.edt_hextra.text() # 16,00
-    vtrans = frm_tabela.edt_vtransp.text() # 12,30
-    vresf = frm_tabela.edt_vref.text() # 17,00
+    diaria = float(frm_tabela.edt_diaria.text().replace(',','.')) # 85,00
+    hextra = float(frm_tabela.edt_hextra.text().replace(',','.')) # 16,00
+    vtrans = float(frm_tabela.edt_vtransp.text().replace(',','.')) # 12,30
+    vresf = float(frm_tabela.edt_vref.text().replace(',','.')) # 17,00
     try:
         banco = sqlite3.connect('banco_cadastro.db') 
         cursor = banco.cursor()
@@ -206,23 +217,23 @@ def salvar_tabela():
         tables = len(dados)
         if tables == 0:
             # inserir dados na tabela
-            cursor.execute("INSERT INTO cadastro_colaborador VALUES(NULL,'"+diaria+"','"+hextra+"','"+vtrans+"','"+vresf+"')")
+            cursor.execute("INSERT INTO tabela VALUES(NULL,'"+diaria+"','"+hextra+"','"+vtrans+"','"+vresf+"')")
             banco.commit()
             banco.close()
             frm_tabela.edt_diaria.setText('')
             frm_tabela.edt_hextra.setText('')
             frm_tabela.edt_vtransp.setText('')
             frm_tabela.edt_vref.setText('')
-            QMessageBox.information(frm_tabela, "Aviso", "Colaborador cadastrado com sucesso")
+            QMessageBox.information(frm_tabela, "Aviso", "Tabela cadastrado com sucesso")
         else:
-            cursor.execute("UPDATE cadastro_colaborador SET diaria = '"+diaria+"', hextra = '"+hextra+"',vtransp = '"+vtrans+"', vref = '"+vresf+"'")
+            cursor.execute("UPDATE tabela SET diaria = '"+diaria+"', hextra = '"+hextra+"',vtransp = '"+vtrans+"', vref = '"+vresf+"'")
             banco.commit()
             banco.close()
             frm_tabela.edt_diaria.setText('')
             frm_tabela.edt_hextra.setText('')
             frm_tabela.edt_vtransp.setText('')
             frm_tabela.edt_vref.setText('')
-            QMessageBox.information(frm_tabela, "Aviso", "Colaborador atualizado com sucesso")
+            QMessageBox.information(frm_tabela, "Aviso", "Tabela atualizado com sucesso")
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
         QMessageBox.about(frm_tabela, "ERRO","Erro ao inserir os dados")
@@ -233,17 +244,18 @@ def chamaregistro():
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM tabela")
         dados_lidos = cursor.fetchall()
+        tables = len(dados_lidos)
         banco.commit()
-        if dados_lidos == 0:
+        if tables == 0:
             frm_registro.edt_diaria.setText('')
             frm_registro.edt_hextra.setText('')
             frm_registro.edt_vtransp.setText('')
             frm_registro.edt_vref.setText('')
         else:
-            frm_registro.edt_diaria.setText(dados_lidos[0][1])
-            frm_registro.edt_hextra.setText(dados_lidos[0][2])
-            frm_registro.edt_vtransp.setText(dados_lidos[0][3])
-            frm_registro.edt_vref.setText(dados_lidos[0][4])
+            frm_registro.edt_diaria.setText(str('%.2f'%dados_lidos[0][1]).replace('.',','))
+            frm_registro.edt_hextra.setText(str('%.2f'%dados_lidos[0][2]).replace('.',','))
+            frm_registro.edt_vtransp.setText(str('%.2f'%dados_lidos[0][3]).replace('.',','))
+            frm_registro.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro) 
     frm_registro.show()
