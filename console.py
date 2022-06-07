@@ -1,4 +1,4 @@
-from email.utils import collapse_rfc2231_value
+#from email.utils import collapse_rfc2231_value
 import os
 import sqlite3
 from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
@@ -12,7 +12,6 @@ tabela = pd.read_excel(f'.\dados\cidades.xls')
 cidade = tabela.loc[tabela["UF"]=="RS"]
 uf = tabela.loc[tabela["UF"]=="RS"]
 tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
-#funcaos = ["Motorista","Coferente","Aux. ADM"]
 id_colab = 0
 # Criando o Bando de Dados
 banco = sqlite3.connect('banco_cadastro.db') 
@@ -91,8 +90,7 @@ def cadastro_colaborador():
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
         QMessageBox.about(frm_cadColab, "ERRO","Erro ao inserir os dados")
-        banco.close()
-    #banco.commit()    
+        banco.close()   
 def funcao_login():
     nome_user = frm_login.lineuser.text()
     key = frm_login.linekey.text()
@@ -133,8 +131,6 @@ def cadastra_funcao():
     tabelaf= tabelaf.append({'descricao': descs}, ignore_index=True)
     tabelaf.to_excel(r'.\dados\funcoes.xlsx', index = False)
     frm_funcao.edt_funcao.setText("")
-def aria():
-    pass
 def chamacadastrouser():
     frm_cadUser.show()
     frm_inicial.close()
@@ -166,6 +162,8 @@ def chamatabelas():
         print("Erro ao inserir os dados: ",erro)
     frm_tabela.show()
 def pesquisar_colab():
+    pass
+def salvaregistro():
     pass
 def editar_colab():
     global id_colab
@@ -246,6 +244,7 @@ def chamaregistro():
         dados_lidos = cursor.fetchall()
         tables = len(dados_lidos)
         banco.commit()
+        banco.close()
         if tables == 0:
             frm_registro.edt_diaria.setText('')
             frm_registro.edt_hextra.setText('')
@@ -270,7 +269,8 @@ if __name__ == '__main__':
     frm_tabela = uic.loadUi(r'.\frms\frm_tabelas.ui')
     frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
     # botões da tela registros
-    #frm_registro.tbn_salvar.clicked.connect()
+    frm_registro.tbn_salvar.clicked.connect(salvaregistro)
+    frm_registro.tbn_pesquisar.clicked.connect(pesquisar_colab)
     # botões da tela tabela
     frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
