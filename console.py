@@ -269,8 +269,8 @@ if __name__ == '__main__':
     frm_tabela = uic.loadUi(r'.\frms\frm_tabelas.ui')
     frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
     # botões da tela registros
-    frm_registro.tbn_salvar.clicked.connect(salvaregistro)
-    frm_registro.tbn_pesquisar.clicked.connect(pesquisar_colab)
+    frm_registro.btn_salvar.clicked.connect(salvaregistro)
+    frm_registro.btn_pesquisar.clicked.connect(pesquisar_colab)
     # botões da tela tabela
     frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
