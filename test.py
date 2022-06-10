@@ -1,23 +1,44 @@
-
-
-from msilib.schema import tables
-import pandas as pd
 import sqlite3
 from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
+from PyQt5.QtCore import Qt, QSortFilterProxyModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
 banco = sqlite3.connect('banco_cadastro.db') 
 cursor = banco.cursor()
-cursor.execute("select * from tabela")
+cursor.execute("select * from cadastro_colaborador")
 dados = cursor.fetchall()
 banco.commit()
-tables = len(dados)
+tabelas = dados
 
-print(tables)
+carros = ('Gol', 'Celta', 'Corsa', 'Uno', 'Fox', 'Cruze', 'Brasilia', 'Saveiro', 'Fusca', 'Hilux', 'Onix')
+print(type(carros))
+print(type(tabelas))
+modelo = QStandardItemModel(len(tabelas),1)
+modelo.setHorizontalHeaderLabels(['Nome'])
+elemento = QStandardItem(tabelas)
 
-if tables == 0:
-    print("ok")
-else:
-    print("erro")
+for i in range(0, len(tabelas)):
+        for j in range(0, 10):
+           modelo.setItem(i,0,elemento)
+    
 
+
+'''for linha, tabela in enumerate(tabelas):     
+    elemento = QStandardItem(tabelas)
+    modelo.setItem(linha, 0, elemento)'''
+
+filtro = QSortFilterProxyModel()
+filtro.setSourceModel(modelo)
+filtro.setFilterKeyColumn(0)
+filtro.setFilterCaseSensitivity(Qt.CaseInsensitive)
+
+if __name__ == '__main__':
+    App = QtWidgets.QApplication([])
+    frm_inicial = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro.ui')
+    frm_inicial.tableView.setModel(filtro)
+    frm_inicial.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
+    frm_inicial.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)
+    frm_inicial.show()
+    App.exec()
 
