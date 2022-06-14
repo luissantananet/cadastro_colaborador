@@ -12,21 +12,23 @@ banco.commit()
 tabelas = dados
 
 carros = ('Gol', 'Celta', 'Corsa', 'Uno', 'Fox', 'Cruze', 'Brasilia', 'Saveiro', 'Fusca', 'Hilux', 'Onix')
-print(type(carros))
-print(type(tabelas))
-modelo = QStandardItemModel(len(tabelas),1)
-modelo.setHorizontalHeaderLabels(['Nome'])
-elemento = QStandardItem(tabelas)
 
+
+
+
+"""for i in range(0, len(tabelas)):
+        for j in range(0, 10):
+           modelo.setItem(i,0,elemento)"""
+    
 for i in range(0, len(tabelas)):
         for j in range(0, 10):
-           modelo.setItem(i,0,elemento)
-    
+           tabela =(str(tabelas[i][j]))
+print(type(tabela))
+print(tabela)    
 
-
-'''for linha, tabela in enumerate(tabelas):     
-    elemento = QStandardItem(tabelas)
-    modelo.setItem(linha, 0, elemento)'''
+modelo = QStandardItemModel(len(tabelas),1)
+modelo.setHorizontalHeaderLabels(['Nome'])
+#elemento = QStandardItem(tabelas)
 
 filtro = QSortFilterProxyModel()
 filtro.setSourceModel(modelo)
