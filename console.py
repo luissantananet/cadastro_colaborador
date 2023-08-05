@@ -137,6 +137,7 @@ def chamacadastrouser():
 def chamatelainicial():
     frm_cadUser.close()
     frm_inicial.show()
+
 def chamapesquisar():
     cursor.execute("SELECT * FROM cadastro_colaborador")
     dados_lidos = cursor.fetchall()
@@ -163,6 +164,18 @@ def chamatabelas():
     frm_tabela.show()
 def pesquisar_colab():
     pass
+def selecionar_colab():
+    linha = frm_pesquisarColab.tableWidget.currentRow()
+    cursor = banco.cursor()
+    cursor.execute("SELECT * FROM cadastro_colaborador")
+    dados_lidos = cursor.fetchall()
+    banco.commit()
+    valor_id = dados_lidos[linha][0]
+    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
+    colab = cursor.fetchall()
+    frm_pesquisarColab.close()
+    frm_registro.show()
+    frm_registro.edt_nome.setText(str(colab[0][1]))
 def salvaregistro():
     pass
 def editar_colab():
@@ -292,6 +305,7 @@ if __name__ == '__main__':
     # botões da tela pesquisar colaborador
     frm_pesquisarColab.btn_pesquisar.clicked.connect(pesquisar_colab)
     frm_pesquisarColab.btn_editar.clicked.connect(editar_colab)
+    frm_pesquisarColab.btn_selecionar.clicked.connect(selecionar_colab)
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
     frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])

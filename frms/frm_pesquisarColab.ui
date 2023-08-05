@@ -72,6 +72,19 @@
      <string>Editar</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_selecionar">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>480</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selecionar</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
