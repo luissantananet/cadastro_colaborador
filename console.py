@@ -163,7 +163,17 @@ def chamatabelas():
         print("Erro ao inserir os dados: ",erro)
     frm_tabela.show()
 def pesquisar_colab():
-    pass
+    nome = frm_pesquisarColab.edt_pesquisar.text()
+    banco = sqlite3.connect('banco_cadastro.db') 
+    cursor = banco.cursor()
+    cursor.execute("SELECT * FROM cadastro_colaborador WHERE nome_completa='{}'".format(nome))
+    dados_lidos = cursor.fetchall()
+    frm_pesquisarColab.tableWidget.setRowCount(len(dados_lidos))
+    frm_pesquisarColab.tableWidget.setColumnCount(10)
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 5):
+            frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
 def selecionar_colab():
     linha = frm_pesquisarColab.tableWidget.currentRow()
     cursor = banco.cursor()
