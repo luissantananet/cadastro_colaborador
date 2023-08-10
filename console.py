@@ -14,7 +14,7 @@ uf = tabela.loc[tabela["UF"]=="RS"]
 tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
 id_colab = 0
 # Criando o Bando de Dados
-banco = sqlite3.connect('banco_cadastro.db') 
+banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
 cursor = banco.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_user (id INTEGER PRIMARY KEY AUTOINCREMENT,nome varchar(100)NOT NULL,login varchar(100)NOT NULL, senha varchar(100)NOT NULL);")
 cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
@@ -48,7 +48,7 @@ def cadastro_colaborador():
     cidade = frm_cadColab.comboBox_cidade.currentText()
     uf = frm_cadColab.comboBox_uf.currentText()
     try:
-        banco = sqlite3.connect('banco_cadastro.db') 
+        banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
         cursor = banco.cursor()
         # cria o bando se ele nao exixtir 
         cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
@@ -113,7 +113,7 @@ def cadastro_user():
     if login != "" and nome != "" and senha != "":
         if (senha == c_senha):
             try:
-                banco = sqlite3.connect('banco_cadastro.db')
+                banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
                 cursor = banco.cursor()
                 cursor.execute("INSERT INTO cadastro_user VALUES (NULL,'"+nome+"','"+login+"','"+senha+"');")
                 banco.commit()
@@ -151,7 +151,7 @@ def chamapesquisar():
     frm_pesquisarColab.show()
 def chamatabelas():
     try:
-        banco = sqlite3.connect('banco_cadastro.db') 
+        banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
         cursor = banco.cursor()
         cursor.execute("select * from tabela")
         dados_lidos = cursor.fetchall()
@@ -164,7 +164,7 @@ def chamatabelas():
     frm_tabela.show()
 def pesquisar_colab():
     nome = frm_pesquisarColab.edt_pesquisar.text()
-    banco = sqlite3.connect('banco_cadastro.db') 
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
     cursor = banco.cursor()
     cursor.execute("SELECT * FROM cadastro_colaborador WHERE nome_completa='{}'".format(nome))
     dados_lidos = cursor.fetchall()
@@ -224,7 +224,7 @@ def salvar_tabela():
     vtrans = float(frm_tabela.edt_vtransp.text().replace(',','.')) # 12,30
     vresf = float(frm_tabela.edt_vref.text().replace(',','.')) # 17,00
     try:
-        banco = sqlite3.connect('banco_cadastro.db') 
+        banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
         cursor = banco.cursor()
         # cria o bando se ele nao exixtir 
         cursor.execute("""CREATE TABLE IF NOT EXISTS tabela ( 
@@ -261,7 +261,7 @@ def salvar_tabela():
         banco.close()
 def chamaregistro():
     try:
-        banco = sqlite3.connect('banco_cadastro.db') 
+        banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM tabela")
         dados_lidos = cursor.fetchall()
