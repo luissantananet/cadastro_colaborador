@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>554</width>
-    <height>600</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>554</width>
-    <height>600</height>
+    <height>380</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>554</width>
-    <height>600</height>
+    <height>380</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -128,7 +128,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>0</hour>
+      <hour>3</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2022</year>
@@ -438,21 +438,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>350</y>
-      <width>521</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_limpar">
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>560</y>
+      <y>340</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -465,7 +455,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>560</y>
+      <y>340</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -478,7 +468,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>560</y>
+      <y>340</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -498,6 +488,19 @@
     </property>
     <property name="text">
      <string>Nome Completo</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_calcular">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>300</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Calcular</string>
     </property>
    </widget>
    <zorder>edt_nome</zorder>
@@ -522,12 +525,12 @@
    <zorder>edt_total</zorder>
    <zorder>label_11</zorder>
    <zorder>groupBox</zorder>
-   <zorder>tableWidget</zorder>
    <zorder>btn_limpar</zorder>
    <zorder>btn_salvar</zorder>
    <zorder>btn_excluir</zorder>
    <zorder>label_7</zorder>
    <zorder>dateinicial</zorder>
+   <zorder>btn_calcular</zorder>
   </widget>
  </widget>
  <resources/>

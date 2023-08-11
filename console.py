@@ -187,7 +187,26 @@ def selecionar_colab():
     frm_registro.show()
     frm_registro.edt_nome.setText(str(colab[0][1]))
 def salvaregistro():
-    pass
+    try:
+        banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
+        cursor = banco.cursor()
+        # cria tabela se nao existir
+        cursor.execute("""CREATE TABLE IF NOT EXISTS registro (
+        id integer PRIMARY KEY AUTOINCREMENT,
+        data_inicial varchar(100)NOT NULL,
+        data_final varchar(100)NOT NULL,
+        nome_completo varchar(100)NOT NULL,
+        dias_tr decimal(5,2) NOT NULL,
+        he decimal(5,2) NOT NULL,
+        vt decimal(5,2) NOT NULL,
+        vr decimal(5,2) NOT NULL,
+        ad_vale decimal(5,2) NOT NULL,
+        vale decimal(5,2) NOT NULL,
+        subtotal decimal(5,2) NOT NULL,
+        total decimal(5,2) NOT NULL
+        );""")
+    except sqlite3.Error as erro:
+        print("Erro ao cadastrar registro: ",erro)
 def editar_colab():
     global id_colab
     linha =frm_pesquisarColab.tableWidget.currentRow()
