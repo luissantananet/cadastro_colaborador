@@ -186,15 +186,27 @@ def selecionar_colab():
     frm_pesquisarColab.close()
     frm_registro.show()
     frm_registro.edt_nome.setText(str(colab[0][1]))
+
 def salvaregistro():
+    datainicial = frm_registro.datainicial.text()
+    datafinal = frm_registro.datafinal.text()
+    nome = frm_registro.edt_nome.text()
+    advale = frm_registro.edt_advale.text()
+    dias = frm_registro.edt_dias.text()
+    he = frm_registro.edt_he.text()
+    sobtotal = frm_registro.edt_sobtotal.text()
+    total = frm_registro.edt_total.text()
+    vale = frm_registro.edt_vale.text()
+    vr = frm_registro.edt_vr.text()
+    vt = frm_registro.edt_vt.text()
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
         # cria tabela se nao existir
         cursor.execute("""CREATE TABLE IF NOT EXISTS registro (
         id integer PRIMARY KEY AUTOINCREMENT,
-        data_inicial varchar(100)NOT NULL,
-        data_final varchar(100)NOT NULL,
+        data_inicial date()NOT NULL,
+        data_final date()NOT NULL,
         nome_completo varchar(100)NOT NULL,
         dias_tr decimal(5,2) NOT NULL,
         he decimal(5,2) NOT NULL,
@@ -205,8 +217,44 @@ def salvaregistro():
         subtotal decimal(5,2) NOT NULL,
         total decimal(5,2) NOT NULL
         );""")
+        if id == "":
+            cursor.execute("INSERT INTO tabela VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+advale+"','"+dias+"','"+he+"','"+sobtotal+"','"+total+"','"+vale+"','"+vr+"','"+vt+"',)")
+            banco.commit()
+            banco.close()
+            frm_registro.edt_nome.setText('')
+            frm_registro.datainicial.setText('')
+            frm_registro.datafinal.setText('')
+            frm_registro.edt_advale.setText('')
+            frm_registro.edt_dias.setText('')
+            frm_registro.edt_he.setText('')
+            frm_registro.edt_sobtotal.setText('')
+            frm_registro.edt_total.setText('')
+            frm_registro.edt_vale.setText('')
+            frm_registro.edt_vr.setText('')
+            frm_registro.edt_vt.setText('')
+            QMessageBox.information(frm_registro, "Aviso", "Colaborador cadastrado com sucesso")
+        else:
+            cursor.execute("UPDATE tabela SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"','"+sobtotal+"','"+total+"','"+vale+"','"+vr+"','"+vt+"'")
+            banco.commit()
+            banco.close()
+            frm_registro.edt_nome.setText('')
+            frm_registro.datainicial.setText('')
+            frm_registro.datafinal.setText('')
+            frm_registro.edt_advale.setText('')
+            frm_registro.edt_dias.setText('')
+            frm_registro.edt_he.setText('')
+            frm_registro.edt_sobtotal.setText('')
+            frm_registro.edt_total.setText('')
+            frm_registro.edt_vale.setText('')
+            frm_registro.edt_vr.setText('')
+            frm_registro.edt_vt.setText('')
+            QMessageBox.information(frm_cadColab, "Aviso", "Colaborador atualizado com sucesso")
     except sqlite3.Error as erro:
         print("Erro ao cadastrar registro: ",erro)
+def limparregistro():
+    pass
+def excluirregistro():
+    pass
 def editar_colab():
     global id_colab
     linha =frm_pesquisarColab.tableWidget.currentRow()
@@ -313,6 +361,8 @@ if __name__ == '__main__':
     # botões da tela registros
     frm_registro.btn_salvar.clicked.connect(salvaregistro)
     frm_registro.btn_pesquisar.clicked.connect(chamapesquisar)
+    frm_registro.btn_limpar.clicked.connect(limparregistro)
+    frm_registro.btn_excluir.clicked.connect(excluirregistro)
     # botões da tela tabela
     frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
