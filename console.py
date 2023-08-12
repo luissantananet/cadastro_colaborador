@@ -210,8 +210,8 @@ def salvaregistro():
         nome_completo varchar(100)NOT NULL,
         dias_tr decimal(5,2) NOT NULL,
         he decimal(5,2) NOT NULL,
-        vt decimal(5,2) NOT NULL,
         vr decimal(5,2) NOT NULL,
+        vt decimal(5,2) NOT NULL,
         ad_vale decimal(5,2) NOT NULL,
         vale decimal(5,2) NOT NULL,
         subtotal decimal(5,2) NOT NULL,
@@ -234,7 +234,7 @@ def salvaregistro():
             frm_registro.edt_vt.setText('')
             QMessageBox.information(frm_registro, "Aviso", "Colaborador cadastrado com sucesso")
         else:
-            cursor.execute("UPDATE tabela SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"','"+sobtotal+"','"+total+"','"+vale+"','"+vr+"','"+vt+"'")
+            cursor.execute("UPDATE tabela SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"', vr = '"+vr+"', vt = '"+vt+"',ad_vale = '"+advale+"' vale = '"+vale+"', subtotal = '"+sobtotal+"', total = '"+total+"'")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
