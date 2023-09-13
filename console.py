@@ -252,8 +252,20 @@ def salvaregistro():
     except sqlite3.Error as erro:
         print("Erro ao cadastrar registro: ",erro)
 def limparregistro():
-    pass
+    frm_registro.edt_nome.setText('')
+    frm_registro.datainicial.setText('')
+    frm_registro.datafinal.setText('')
+    frm_registro.edt_advale.setText('')
+    frm_registro.edt_dias.setText('')
+    frm_registro.edt_he.setText('')
+    frm_registro.edt_sobtotal.setText('')
+    frm_registro.edt_total.setText('')
+    frm_registro.edt_vale.setText('')
+    frm_registro.edt_vr.setText('')
+    frm_registro.edt_vt.setText('')
 def excluirregistro():
+    pass
+def calcularRegistro():
     pass
 def editar_colab():
     global id_colab
@@ -363,6 +375,7 @@ if __name__ == '__main__':
     frm_registro.btn_pesquisar.clicked.connect(chamapesquisar)
     frm_registro.btn_limpar.clicked.connect(limparregistro)
     frm_registro.btn_excluir.clicked.connect(excluirregistro)
+    frm_registro.btn_calcular.clicked.connect(calcularRegistro)
     # botões da tela tabela
     frm_tabela.btn_salvar.clicked.connect(salvar_tabela)
     # botões da tela cadastro funcao
