@@ -30,7 +30,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>80</y>
       <width>441</width>
       <height>20</height>
      </rect>
@@ -40,23 +40,13 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>88</y>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Pesquisar</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_dias">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -72,7 +62,7 @@
      <string>Data Inicial</string>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateinicial">
+   <widget class="QDateEdit" name="datainicial">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -128,7 +118,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>3</hour>
+      <hour>6</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2022</year>
@@ -159,187 +149,13 @@
      <string>Data Final</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> DIAS TR</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_he">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>150</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>130</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> H.E.</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_vt">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>150</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>130</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> V.T.</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_vr">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>150</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>130</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> V.R.</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_advale">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>200</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>180</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> AD VALE</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_vale">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>200</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_9">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>180</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> VALE</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_subtotal">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>200</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>180</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> SUBTOTAL</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edt_total">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>200</y>
-      <width>61</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_11">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>180</y>
-      <width>61</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> TOTAL</string>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>270</y>
       <width>381</width>
-      <height>80</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="title">
@@ -442,7 +258,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>340</y>
+      <y>350</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -455,7 +271,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>340</y>
+      <y>350</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -468,7 +284,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>340</y>
+      <y>350</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -481,7 +297,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>60</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -490,49 +306,286 @@
      <string>Nome Completo</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_calcular">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>300</y>
-      <width>75</width>
-      <height>23</height>
+      <x>20</x>
+      <y>190</y>
+      <width>171</width>
+      <height>71</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="title">
+     <string>-</string>
+    </property>
+    <widget class="QLineEdit" name="edt_vale">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> AD VALE</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> VALE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_advale">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>311</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>+</string>
+    </property>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>20</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> V.R.</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_dias">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_vt">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_vr">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> H.E.</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_he">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> DIAS TR</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>20</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> V.T.</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>160</y>
+      <width>151</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="title">
      <string>Calcular</string>
     </property>
+    <widget class="QLineEdit" name="edt_total">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>70</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> TOTAL</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="edt_subtotal">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> SUBTOTAL</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_calcular">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Calcular</string>
+     </property>
+    </widget>
    </widget>
    <zorder>edt_nome</zorder>
    <zorder>btn_pesquisar</zorder>
-   <zorder>edt_dias</zorder>
    <zorder>label</zorder>
    <zorder>datafinal</zorder>
    <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>edt_he</zorder>
-   <zorder>label_4</zorder>
-   <zorder>edt_vt</zorder>
-   <zorder>label_5</zorder>
-   <zorder>edt_vr</zorder>
-   <zorder>label_6</zorder>
-   <zorder>edt_advale</zorder>
-   <zorder>label_8</zorder>
-   <zorder>edt_vale</zorder>
-   <zorder>label_9</zorder>
-   <zorder>edt_subtotal</zorder>
-   <zorder>label_10</zorder>
-   <zorder>edt_total</zorder>
-   <zorder>label_11</zorder>
    <zorder>groupBox</zorder>
    <zorder>btn_limpar</zorder>
    <zorder>btn_salvar</zorder>
    <zorder>btn_excluir</zorder>
    <zorder>label_7</zorder>
-   <zorder>dateinicial</zorder>
-   <zorder>btn_calcular</zorder>
+   <zorder>datainicial</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>groupBox_3</zorder>
+   <zorder>groupBox_4</zorder>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>datainicial</tabstop>
+  <tabstop>datafinal</tabstop>
+  <tabstop>edt_nome</tabstop>
+  <tabstop>btn_pesquisar</tabstop>
+  <tabstop>edt_dias</tabstop>
+  <tabstop>edt_he</tabstop>
+  <tabstop>edt_vt</tabstop>
+  <tabstop>edt_vr</tabstop>
+  <tabstop>edt_advale</tabstop>
+  <tabstop>edt_vale</tabstop>
+  <tabstop>btn_calcular</tabstop>
+  <tabstop>btn_excluir</tabstop>
+  <tabstop>btn_limpar</tabstop>
+  <tabstop>btn_salvar</tabstop>
+  <tabstop>edt_diaria</tabstop>
+  <tabstop>edt_hextra</tabstop>
+  <tabstop>edt_vtransp</tabstop>
+  <tabstop>edt_vref</tabstop>
+  <tabstop>edt_subtotal</tabstop>
+  <tabstop>edt_total</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
