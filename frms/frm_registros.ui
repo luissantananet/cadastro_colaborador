@@ -26,6 +26,9 @@
    <string>Registro</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="focusPolicy">
+    <enum>Qt::ClickFocus</enum>
+   </property>
    <widget class="QLineEdit" name="edt_nome">
     <property name="geometry">
      <rect>
@@ -79,26 +82,36 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>21</hour>
+      <hour>12</hour>
       <minute>0</minute>
       <second>0</second>
-      <year>2022</year>
-      <month>12</month>
-      <day>31</day>
+      <year>2023</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="minimumDateTime">
+     <datetime>
+      <hour>3</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>1900</year>
+      <month>9</month>
+      <day>14</day>
      </datetime>
     </property>
     <property name="minimumDate">
      <date>
-      <year>1998</year>
-      <month>12</month>
-      <day>31</day>
+      <year>1900</year>
+      <month>9</month>
+      <day>14</day>
      </date>
     </property>
     <property name="calendarPopup">
      <bool>true</bool>
     </property>
     <property name="timeSpec">
-     <enum>Qt::TimeZone</enum>
+     <enum>Qt::LocalTime</enum>
     </property>
    </widget>
    <widget class="QDateEdit" name="datafinal">
@@ -118,12 +131,22 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>6</hour>
+      <hour>9</hour>
       <minute>0</minute>
       <second>0</second>
-      <year>2022</year>
+      <year>2023</year>
       <month>1</month>
       <day>1</day>
+     </datetime>
+    </property>
+    <property name="minimumDateTime">
+     <datetime>
+      <hour>3</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>1900</year>
+      <month>9</month>
+      <day>14</day>
      </datetime>
     </property>
     <property name="currentSection">
@@ -133,7 +156,7 @@
      <bool>true</bool>
     </property>
     <property name="timeSpec">
-     <enum>Qt::UTC</enum>
+     <enum>Qt::LocalTime</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

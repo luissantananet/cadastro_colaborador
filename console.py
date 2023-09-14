@@ -194,7 +194,7 @@ def salvaregistro():
     advale = frm_registro.edt_advale.text()
     dias = frm_registro.edt_dias.text()
     he = frm_registro.edt_he.text()
-    sobtotal = frm_registro.edt_sobtotal.text()
+    sobtotal = frm_registro.edt_subtotal.text()
     total = frm_registro.edt_total.text()
     vale = frm_registro.edt_vale.text()
     vr = frm_registro.edt_vr.text()
@@ -227,7 +227,7 @@ def salvaregistro():
             frm_registro.edt_advale.setText('')
             frm_registro.edt_dias.setText('')
             frm_registro.edt_he.setText('')
-            frm_registro.edt_sobtotal.setText('')
+            frm_registro.edt_subtotal.setText('')
             frm_registro.edt_total.setText('')
             frm_registro.edt_vale.setText('')
             frm_registro.edt_vr.setText('')
@@ -253,8 +253,6 @@ def salvaregistro():
         print("Erro ao cadastrar registro: ",erro)
 def limparregistro():
     frm_registro.edt_nome.setText('')
-    frm_registro.datainicial.setText('')
-    frm_registro.datafinal.setText('')
     frm_registro.edt_advale.setText('')
     frm_registro.edt_dias.setText('')
     frm_registro.edt_he.setText('')
@@ -266,7 +264,41 @@ def limparregistro():
 def excluirregistro():
     pass
 def calcularRegistro():
-    pass
+    # +
+    dias = str(frm_registro.edt_dias.text()).replace(',','.')
+    he = str(frm_registro.edt_he.text()).replace(',','.')
+    vr = str(frm_registro.edt_vr.text()).replace(',','.')
+    vt = str(frm_registro.edt_vt.text()).replace(',','.')
+    # -
+    advale = str(frm_registro.edt_advale.text()).replace(',','.')
+    vale = str(frm_registro.edt_vale.text()).replace(',','.')
+    # tabela
+    diaria = str(frm_registro.edt_diaria.text()).replace(',','.')
+    hextra = str(frm_registro.edt_hextra.text()).replace(',','.')
+    vtransp = str(frm_registro.edt_vtransp.text()).replace(',','.')
+    vref = str(frm_registro.edt_vref.text()).replace(',','.')
+    # calcular
+    dias1 = float(dias)
+    he1 = float(he)
+    vr1 = float(vr)
+    vt1 = float(vt)
+    advale1 = float(advale)
+    vale1 = float(vale)
+    diaria1 = float(diaria)
+    hextra1 = float(hextra)
+    vref1 = float(vref)
+    vtransp1 = float(vtransp)
+    tdias = (dias1 * diaria1)
+    the = (he1 * hextra1)
+    tvr = (vr1 * vref1)
+    tvt = (vt1 * vtransp1)
+    sobtotal = (tdias + the + tvr + tvt)
+    subt = (advale1 + vale1)
+    total = (sobtotal - subt)
+
+    frm_registro.edt_subtotal.setText("{:.2f}".format(sobtotal))
+    frm_registro.edt_total.setText("{:.2f}".format(total))
+
 def editar_colab():
     global id_colab
     linha =frm_pesquisarColab.tableWidget.currentRow()
@@ -359,6 +391,13 @@ def chamaregistro():
             frm_registro.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro) 
+    
+    frm_registro.edt_advale.setText('0')
+    frm_registro.edt_dias.setText('0')
+    frm_registro.edt_he.setText('0')
+    frm_registro.edt_vale.setText('0')
+    frm_registro.edt_vr.setText('0')
+    frm_registro.edt_vt.setText('0')
     frm_registro.show()
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])

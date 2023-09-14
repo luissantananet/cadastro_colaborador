@@ -96,8 +96,14 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhUppercaseOnly</set>
+    </property>
     <property name="placeholderText">
      <string>Digite o Login</string>
+    </property>
+    <property name="cursorMoveStyle">
+     <enum>Qt::LogicalMoveStyle</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="linekey">
@@ -113,6 +119,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
     </property>
     <property name="placeholderText">
      <string>Digite a Senha</string>
