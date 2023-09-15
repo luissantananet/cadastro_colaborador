@@ -278,16 +278,16 @@ def calcularRegistro():
     vtransp = str(frm_registro.edt_vtransp.text()).replace(',','.')
     vref = str(frm_registro.edt_vref.text()).replace(',','.')
     # calcular
-    dias1 = float(dias)
-    he1 = float(he)
-    vr1 = float(vr)
-    vt1 = float(vt)
-    advale1 = float(advale)
-    vale1 = float(vale)
-    diaria1 = float(diaria)
-    hextra1 = float(hextra)
-    vref1 = float(vref)
-    vtransp1 = float(vtransp)
+    dias1 = float(dias) if dias else 0.0
+    he1 = float(he) if he else 0.0
+    vr1 = float(vr) if vr else 0.0
+    vt1 = float(vt) if vt else 0.0
+    advale1 = float(advale) if advale else 0.0
+    vale1 = float(vale) if vale else 0.0
+    diaria1 = float(diaria) if diaria else 0.0
+    hextra1 = float(hextra) if hextra else 0.0
+    vref1 = float(vref) if vref else 0.0
+    vtransp1 = float(vtransp) if vtransp else 0.0
     tdias = (dias1 * diaria1)
     the = (he1 * hextra1)
     tvr = (vr1 * vref1)
@@ -390,14 +390,7 @@ def chamaregistro():
             frm_registro.edt_vtransp.setText(str('%.2f'%dados_lidos[0][3]).replace('.',','))
             frm_registro.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
     except sqlite3.Error as erro:
-        print("Erro ao inserir os dados: ",erro) 
-    
-    frm_registro.edt_advale.setText('0')
-    frm_registro.edt_dias.setText('0')
-    frm_registro.edt_he.setText('0')
-    frm_registro.edt_vale.setText('0')
-    frm_registro.edt_vr.setText('0')
-    frm_registro.edt_vt.setText('0')
+        print("Erro ao inserir os dados: ",erro)
     frm_registro.show()
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
