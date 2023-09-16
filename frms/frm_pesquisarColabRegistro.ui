@@ -156,7 +156,7 @@
    </property>
    <property name="dateTime">
     <datetime>
-     <hour>6</hour>
+     <hour>9</hour>
      <minute>0</minute>
      <second>0</second>
      <year>2022</year>
@@ -180,8 +180,27 @@
      <x>10</x>
      <y>130</y>
      <width>531</width>
-     <height>411</height>
+     <height>141</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>280</y>
+     <width>531</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAsNeeded</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContents</enum>
    </property>
   </widget>
  </widget>

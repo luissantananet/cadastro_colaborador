@@ -149,6 +149,34 @@ def chamapesquisar():
         for j in range(0, 10):
            frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     frm_pesquisarColab.show()
+def chamapesquisar2():
+    # Conecte-se ao banco de dados e execute a consulta
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
+    cursor = banco.cursor()
+    cursor.execute("select * from cadastro_colaborador")
+    banco.commit()
+    dados = cursor.fetchall()
+    # Crie um modelo de item padrão para a tabela
+    modelo = QStandardItemModel(len(dados),1)
+    modelo.setHorizontalHeaderLabels(['ID','Nome Completo'])
+
+    # Adicione os dados ao modelo
+    for i in range(len(dados)):
+        for j in range(2):
+            item = QStandardItem(str(dados[i][j]))
+            modelo.setItem(i, j, item)
+
+    # Crie um filtro e aplique-o ao modelo
+    filtro = QSortFilterProxyModel()
+    filtro.setSourceModel(modelo)
+    filtro.setFilterKeyColumn(1)
+    filtro.setFilterCaseSensitivity(Qt.CaseInsensitive)
+    
+    frm_pesquisarColab.tableView.setModel(filtro)
+    frm_pesquisarColab.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
+    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)
+    frm_pesquisarColab.show()
+
 def chamatabelas():
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
@@ -365,7 +393,7 @@ def salvar_tabela():
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
         QMessageBox.about(frm_tabela, "ERRO","Erro ao inserir os dados")
-        banco.close()
+    banco.close()
 def chamaregistro():
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
@@ -374,7 +402,6 @@ def chamaregistro():
         dados_lidos = cursor.fetchall()
         tables = len(dados_lidos)
         banco.commit()
-        banco.close()
         if tables == 0:
             frm_registro.edt_diaria.setText('')
             frm_registro.edt_hextra.setText('')
@@ -387,7 +414,9 @@ def chamaregistro():
             frm_registro.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
     except sqlite3.Error as erro:
         print("Erro ao inserir os dados: ",erro)
+    banco.close()
     frm_registro.show()
+
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
@@ -413,7 +442,7 @@ if __name__ == '__main__':
     # botões da tela principal 
     frm_inicial.actionUser.triggered.connect(chamacadastrouser)
     frm_inicial.actionCadastrar.triggered.connect(chamacadColab)
-    frm_inicial.actionPesquisar.triggered.connect(chamapesquisar)
+    frm_inicial.actionPesquisar.triggered.connect(chamapesquisar2)
     frm_inicial.actionCadastrar_Fun.triggered.connect(chamacadfuncao)
     frm_inicial.actionTabelas.triggered.connect(chamatabelas)
     frm_inicial.actionRegistro_Semanal.triggered.connect(chamaregistro)
@@ -426,6 +455,12 @@ if __name__ == '__main__':
     frm_pesquisarColab.btn_pesquisar.clicked.connect(pesquisar_colab)
     frm_pesquisarColab.btn_editar.clicked.connect(editar_colab)
     frm_pesquisarColab.btn_selecionar.clicked.connect(selecionar_colab)
+    
+    """frm_pesquisarColab.tableView.setModel(filtro)
+    frm_pesquisarColab.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
+    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)"""
+
+
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
     frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
