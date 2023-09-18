@@ -1,39 +1,85 @@
 import sqlite3
-from PyQt5 import uic, QtWidgets, QtGui
-from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem, QWidget
+from PyQt5 import uic, QtWidgets
+from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QPixmap
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+import pandas as pd
 
-# Conecte-se ao banco de dados e execute a consulta
+tabela = pd.read_excel(f'.\dados\cidades.xls')
+cidade = tabela.loc[tabela["UF"]=="RS"]
+uf = tabela.loc[tabela["UF"]=="RS"]
+tabelaf = pd.read_excel(r'.\dados\funcoes.xlsx')
+id_colab = 0
+
 banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
 cursor = banco.cursor()
-cursor.execute("select * from cadastro_colaborador")
+cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_user (id INTEGER PRIMARY KEY AUTOINCREMENT,nome varchar(100)NOT NULL,login varchar(100)NOT NULL, senha varchar(100)NOT NULL);")
+cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        nome_completa varchar(100)NOT NULL, 
+        funcao varchar(100)NOT NULL, 
+        cpf varchar(100)NOT NULL,
+        rg varchar(100), 
+        cnh varchar(100), 
+        endereco varchar(100),
+        numero varchar(10), 
+        bairro varchar(100), 
+        cidade varchar(100), 
+        uf varchar(2));""")
+cursor.execute(f"SELECT * FROM cadastro_user where login='adm';")
+nome = cursor.fetchall()
+nome_ = len(nome)
+if nome_ == 0:
+    cursor.execute("INSERT INTO cadastro_user VALUES(1, 'administrador', 'adm', 'adm');")
 banco.commit()
-dados = cursor.fetchall()
 
-# Crie um modelo de item padrão para a lista
-modelo = QStandardItemModel()
+def selecionar_colab(frm_pesquisarColab):
+    linha = frm_pesquisarColab.listWidget.currentRow()
+    cursor = banco.cursor()
+    cursor.execute("SELECT * FROM cadastro_colaborador")
+    dados_lidos = cursor.fetchall()
+    banco.commit()
+    valor_id = dados_lidos[linha][0]
+    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
+    colab = cursor.fetchall()
+    frm_pesquisarColab.close()
+    frm_registro.show()
+    frm_registro.edt_nome.setText(str(colab[0][1]))
 
-# Adicione os dados ao modelo
-for i in range(len(dados)):
-    item = QStandardItem(str(dados[i][1]))  # Supondo que você queira exibir a primeira coluna
-    modelo.appendRow(item)
+def chamapesquisar2(frm_pesquisarColab):
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
+    cursor = banco.cursor()
+    cursor.execute("select * from cadastro_colaborador")
+    banco.commit()
+    dados = cursor.fetchall()
 
-# Crie um filtro e aplique-o ao modelo
-filtro = QSortFilterProxyModel()
-filtro.setSourceModel(modelo)
-filtro.setFilterKeyColumn(1)
-filtro.setFilterCaseSensitivity(Qt.CaseInsensitive)
+    def filtrar_itens():
+        texto_filtro = frm_pesquisarColab.edt_pesquisar.text().lower()
+        for i in range(frm_pesquisarColab.listWidget.count()):
+            item = frm_pesquisarColab.listWidget.item(i)
+            item.setHidden(texto_filtro not in item.text().lower())
+
+    frm_pesquisarColab.listWidget.clear()
+
+    for i in range(len(dados)):
+        item = QtWidgets.QListWidgetItem(f"{dados[i][1]} - {dados[i][2]}")
+        frm_pesquisarColab.listWidget.addItem(item)
+    
+    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtrar_itens)
+    frm_pesquisarColab.show()
 
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
-    frm_inicial = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
-    #tableViews
-    frm_inicial.tableView.setModel(filtro)
-    frm_inicial.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
+    frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')
+    frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
+    frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
+    
+    frm_inicial.actionPesquisar.triggered.connect(lambda: chamapesquisar2(frm_pesquisarColab))
+    frm_pesquisarColab.btn_selecionar.clicked.connect(lambda: selecionar_colab(frm_pesquisarColab))
 
-    # listViews
-    frm_inicial.listView.setModel(filtro)  # Altere 'tableView' para 'listView'
-    frm_inicial.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)
+    frm_inicial.label.setPixmap(QPixmap(r'.\logo\do-utilizador.png'))
+    frm_inicial.label.resize(520,550)
     frm_inicial.show()
     App.exec()

@@ -1,10 +1,10 @@
 #from email.utils import collapse_rfc2231_value
 import os
 import sqlite3
-from PyQt5 import uic, QtWidgets, QtGui, QtWidgets
+from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QPixmap
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 import pandas as pd
@@ -138,43 +138,48 @@ def chamatelainicial():
     frm_cadUser.close()
     frm_inicial.show()
 
-def chamapesquisar():
-    cursor.execute("SELECT * FROM cadastro_colaborador")
-    dados_lidos = cursor.fetchall()
+def chamapesquisar(frm_pesquisarColab):
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
+    cursor = banco.cursor()
+    cursor.execute("select * from cadastro_colaborador")
     banco.commit()
-    frm_pesquisarColab.tableWidget.setRowCount(len(dados_lidos))
-    frm_pesquisarColab.tableWidget.setColumnCount(10)
+    dados = cursor.fetchall()
 
-    for i in range(0, len(dados_lidos)):
-        for j in range(0, 10):
-           frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+    def filtrar_itens():
+        texto_filtro = frm_pesquisarColab.edt_pesquisar.text().lower()
+        for i in range(frm_pesquisarColab.listWidget.count()):
+            item = frm_pesquisarColab.listWidget.item(i)
+            item.setHidden(texto_filtro not in item.text().lower())
+
+    frm_pesquisarColab.listWidget.clear()
+
+    for i in range(len(dados)):
+        item = QtWidgets.QListWidgetItem(f"{dados[i][1]} - {dados[i][2]}")
+        frm_pesquisarColab.listWidget.addItem(item)
+    
+    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtrar_itens)
     frm_pesquisarColab.show()
-def chamapesquisar2():
+def chamapesquisarRegistro2():
     # Conecte-se ao banco de dados e execute a consulta
     banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
     cursor = banco.cursor()
     cursor.execute("select * from cadastro_colaborador")
     banco.commit()
     dados = cursor.fetchall()
-    # Crie um modelo de item padrão para a tabela
-    modelo = QStandardItemModel(len(dados),1)
-    modelo.setHorizontalHeaderLabels(['ID','Nome Completo'])
+    def filtrar_itens():
+        texto_filtro = frm_pesquisarColab.edt_pesquisar.text().lower()
+        for i in range(frm_pesquisarColab.listWidget.count()):
+            item = frm_pesquisarColab.listWidget.item(i)
+            item.setHidden(texto_filtro not in item.text().lower())
 
-    # Adicione os dados ao modelo
-    for i in range(len(dados)):
-        for j in range(2):
-            item = QStandardItem(str(dados[i][j]))
-            modelo.setItem(i, j, item)
-
-    # Crie um filtro e aplique-o ao modelo
-    filtro = QSortFilterProxyModel()
-    filtro.setSourceModel(modelo)
-    filtro.setFilterKeyColumn(1)
-    filtro.setFilterCaseSensitivity(Qt.CaseInsensitive)
+    frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
     
-    frm_pesquisarColab.tableView.setModel(filtro)
-    frm_pesquisarColab.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
-    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)
+    # Adicione os dados ao listWidget
+    for i in range(len(dados)):
+        item = QtWidgets.QListWidgetItem(f"{dados[i][1]} - {dados[i][2]}")
+        frm_pesquisarColab.listWidget.addItem(item)
+    
+    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtrar_itens)
     frm_pesquisarColab.show()
 
 def chamatabelas():
@@ -202,8 +207,8 @@ def pesquisar_colab():
         for j in range(0, 5):
             frm_pesquisarColab.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
 
-def selecionar_colab():
-    linha = frm_pesquisarColab.tableWidget.currentRow()
+def selecionar_colab(frm_pesquisarColab):
+    linha = frm_pesquisarColab.listWidget.currentRow()
     cursor = banco.cursor()
     cursor.execute("SELECT * FROM cadastro_colaborador")
     dados_lidos = cursor.fetchall()
@@ -423,13 +428,14 @@ if __name__ == '__main__':
     frm_cadColab = uic.loadUi(r'.\frms\frm_cadastroColab.ui')
     frm_cadUser = uic.loadUi(r'.\frms\frm_cadastroUser.ui')
     frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColab.ui')
+    frm_pesquisarRegistro = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
     frm_login = uic.loadUi(r'.\frms\frm_login.ui')
     frm_funcao = uic.loadUi(r'.\frms\frm_funcao.ui')
     frm_tabela = uic.loadUi(r'.\frms\frm_tabelas.ui')
     frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
     # botões da tela registros
     frm_registro.btn_salvar.clicked.connect(salvaregistro)
-    frm_registro.btn_pesquisar.clicked.connect(chamapesquisar)
+    frm_registro.btn_pesquisar.clicked.connect(lambda: chamapesquisar(frm_pesquisarColab))
     frm_registro.btn_limpar.clicked.connect(limparregistro)
     frm_registro.btn_excluir.clicked.connect(excluirregistro)
     frm_registro.btn_calcular.clicked.connect(calcularRegistro)
@@ -442,24 +448,19 @@ if __name__ == '__main__':
     # botões da tela principal 
     frm_inicial.actionUser.triggered.connect(chamacadastrouser)
     frm_inicial.actionCadastrar.triggered.connect(chamacadColab)
-    frm_inicial.actionPesquisar.triggered.connect(chamapesquisar2)
+    frm_inicial.actionPesquisar.triggered.connect(lambda: chamapesquisar(frm_pesquisarColab))
     frm_inicial.actionCadastrar_Fun.triggered.connect(chamacadfuncao)
     frm_inicial.actionTabelas.triggered.connect(chamatabelas)
     frm_inicial.actionRegistro_Semanal.triggered.connect(chamaregistro)
-    frm_inicial.label.setPixmap(QtGui.QPixmap(r'.\logo\do-utilizador.png'))
+    frm_inicial.actionRelatrio_por_Colaborador.triggered.connect(chamapesquisarRegistro2)
+    frm_inicial.label.setPixmap(QPixmap(r'.\logo\do-utilizador.png'))
     frm_inicial.label.resize(520,550)
     # botões da tela cadastro de user
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
     # botões da tela pesquisar colaborador
-    frm_pesquisarColab.btn_pesquisar.clicked.connect(pesquisar_colab)
     frm_pesquisarColab.btn_editar.clicked.connect(editar_colab)
-    frm_pesquisarColab.btn_selecionar.clicked.connect(selecionar_colab)
-    
-    """frm_pesquisarColab.tableView.setModel(filtro)
-    frm_pesquisarColab.tableView.horizontalHeader().setStyleSheet("font-size: 15px;color: rgb(50, 50, 255);")
-    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtro.setFilterRegExp)"""
-
+    frm_pesquisarColab.btn_selecionar.clicked.connect(lambda: selecionar_colab(frm_pesquisarColab))
 
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)

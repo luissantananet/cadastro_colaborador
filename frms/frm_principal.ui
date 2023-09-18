@@ -71,7 +71,7 @@
     <property name="title">
      <string>Relatorio</string>
     </property>
-    <addaction name="actionRelat_rio_por_Colaborador"/>
+    <addaction name="actionRelatrio_por_Colaborador"/>
     <addaction name="actionRegistro_Semanal"/>
    </widget>
    <widget class="QMenu" name="menuConfirga_o">
@@ -90,7 +90,7 @@
     <string>Usuário</string>
    </property>
   </action>
-  <action name="actionRelat_rio_por_Colaborador">
+  <action name="actionRelatrio_por_Colaborador">
    <property name="text">
     <string>Relatório por Colaborador</string>
    </property>
