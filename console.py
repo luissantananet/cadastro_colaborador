@@ -220,6 +220,29 @@ def selecionar_colab(frm_pesquisarColab):
     frm_registro.show()
     frm_registro.edt_nome.setText(str(colab[0][1]))
 
+def editar_colab(frm_pesquisarColab):
+    global id_colab
+    linha =frm_pesquisarColab.listWidget.currentRow()
+    cursor.execute("SELECT * FROM cadastro_colaborador")
+    dados_lidos = cursor.fetchall()
+    banco.commit()
+    valor_id = dados_lidos[linha][0]
+    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
+    colab = cursor.fetchall()
+    frm_cadColab.edt_id.setText(str(colab[0][0]))
+    frm_cadColab.edt_nome.setText(colab[0][1])
+    frm_cadColab.comboBox_funcao.addItem(colab[0][2])
+    frm_cadColab.edt_cpf.setText(colab[0][3])
+    frm_cadColab.edt_rg.setText(colab[0][4])
+    frm_cadColab.edt_cnh.setText(colab[0][5])
+    frm_cadColab.edt_endereco.setText(colab[0][6])
+    frm_cadColab.edt_numeroEnd.setText(colab[0][7])
+    frm_cadColab.edt_bairro.setText(colab[0][8])
+    frm_cadColab.comboBox_cidade.addItem(str(colab[0][9]))
+    frm_cadColab.comboBox_uf.addItem(colab[0][10])
+    id_colab = valor_id
+    frm_cadColab.show()
+
 def salvaregistro():
     datainicial = frm_registro.datainicial.text()
     datafinal = frm_registro.datafinal.text()
@@ -328,28 +351,6 @@ def calcularRegistro():
     frm_registro.edt_subtotal.setText("{:.2f}".format(sobtotal))
     frm_registro.edt_total.setText("{:.2f}".format(total))
 
-def editar_colab():
-    global id_colab
-    linha =frm_pesquisarColab.tableWidget.currentRow()
-    cursor.execute("SELECT * FROM cadastro_colaborador")
-    dados_lidos = cursor.fetchall()
-    banco.commit()
-    valor_id = dados_lidos[linha][0]
-    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
-    colab = cursor.fetchall()
-    frm_cadColab.edt_id.setText(str(colab[0][0]))
-    frm_cadColab.edt_nome.setText(colab[0][1])
-    frm_cadColab.comboBox_funcao.addItem(colab[0][2])
-    frm_cadColab.edt_cpf.setText(colab[0][3])
-    frm_cadColab.edt_rg.setText(colab[0][4])
-    frm_cadColab.edt_cnh.setText(colab[0][5])
-    frm_cadColab.edt_endereco.setText(colab[0][6])
-    frm_cadColab.edt_numeroEnd.setText(colab[0][7])
-    frm_cadColab.edt_bairro.setText(colab[0][8])
-    frm_cadColab.comboBox_cidade.addItem(str(colab[0][9]))
-    frm_cadColab.comboBox_uf.addItem(colab[0][10])
-    id_colab = valor_id
-    frm_cadColab.show()
 def chamacadColab():
     frm_cadColab.show()
 def fechacolab():
@@ -459,9 +460,8 @@ if __name__ == '__main__':
     frm_cadUser.btn_salvar.clicked.connect(cadastro_user)
     frm_cadUser.btn_fechar.clicked.connect(chamatelainicial)
     # botões da tela pesquisar colaborador
-    frm_pesquisarColab.btn_editar.clicked.connect(editar_colab)
+    frm_pesquisarColab.btn_editar.clicked.connect(lambda: editar_colab(frm_pesquisarColab))
     frm_pesquisarColab.btn_selecionar.clicked.connect(lambda: selecionar_colab(frm_pesquisarColab))
-
     # botões da tela cadastro colaborador
     frm_cadColab.btn_fechar.clicked.connect(fechacolab)
     frm_cadColab.comboBox_funcao.addItems(tabelaf["descricao"])
