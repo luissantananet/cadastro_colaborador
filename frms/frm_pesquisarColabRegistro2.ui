@@ -47,8 +47,8 @@
    <widget class="QPushButton" name="btn_selecionar">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>480</y>
+      <x>380</x>
+      <y>481</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -57,21 +57,11 @@
      <string>Selecionar</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>441</width>
-      <height>421</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_excluir">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>480</y>
+      <x>300</x>
+      <y>481</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -79,6 +69,52 @@
     <property name="text">
      <string>Excluir</string>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>48</y>
+      <width>441</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Colaboradores</string>
+    </property>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>421</width>
+       <height>171</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>257</y>
+      <width>441</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Registros</string>
+    </property>
+    <widget class="QListWidget" name="listWidget_Registros">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>421</width>
+       <height>191</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

@@ -160,27 +160,26 @@ def chamapesquisar(frm_pesquisarColab):
     frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtrar_itens)
     frm_pesquisarColab.show()
 def chamapesquisarRegistro2():
-    # Conecte-se ao banco de dados e execute a consulta
     banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
     cursor = banco.cursor()
+    cursor2 = banco.cursor()
     cursor.execute("select * from cadastro_colaborador")
-    banco.commit()
+    cursor2.execute("select * from registro")
+    
     dados = cursor.fetchall()
+    dados_registro = cursor2.fetchall()
+    banco.commit()
     def filtrar_itens():
-        texto_filtro = frm_pesquisarColab.edt_pesquisar.text().lower()
-        for i in range(frm_pesquisarColab.listWidget.count()):
-            item = frm_pesquisarColab.listWidget.item(i)
+        texto_filtro = frm_pesquisarRegistro.edt_pesquisar.text().lower()
+        for i in range(frm_pesquisarRegistro.listWidget.count()):
+            item = frm_pesquisarRegistro.listWidget.item(i)
+            item.setHidden(texto_filtro not in item.text().lower())
+        for i in range(frm_pesquisarRegistro.listWidget_Registros.count()):
+            item = frm_pesquisarRegistro.listWidget_Registros.item(i)
             item.setHidden(texto_filtro not in item.text().lower())
 
-    frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
-    
-    # Adicione os dados ao listWidget
-    for i in range(len(dados)):
-        item = QtWidgets.QListWidgetItem(f"{dados[i][1]} - {dados[i][2]}")
-        frm_pesquisarColab.listWidget.addItem(item)
-    
-    frm_pesquisarColab.edt_pesquisar.textChanged.connect(filtrar_itens)
-    frm_pesquisarColab.show()
+    frm_pesquisarRegistro.listWidget.clear()
+    frm_pesquisarRegistro.listWidget_Registros.clear()
 
 def chamatabelas():
     try:
