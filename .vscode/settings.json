@@ -4,5 +4,14 @@
     "sync.forceDownload": true,
     "sync.forceUpload": true,
     "sync.gist": "luissantananet",
-    "sync.quietSync": true
+    "sync.quietSync": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:cadastro_colaborador}/dados/banco_cadastro.db",
+            "name": "banco_cadastro"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }
