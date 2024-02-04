@@ -99,10 +99,10 @@ if __name__ == '__main__':
     frm_registro = uic.loadUi(r'.\frms\frm_registros.ui')
     frm_pesquisarColab = uic.loadUi(r'.\frms\frm_pesquisarColab.ui')
     frm_pesquisarRegistro = uic.loadUi(r'.\frms\frm_pesquisarColabRegistro2.ui')
-
+    # botões da tela Pesquisar registros
     frm_pesquisarRegistro.btn_selecionar.clicked.connect(lambda: selecionar_colab(frm_pesquisarRegistro))
-
     frm_inicial.actionRelatrio_por_Colaborador.triggered.connect(lambda: chamapesquisarRegistro2(frm_pesquisarRegistro))
+
     frm_inicial.label.setPixmap(QPixmap(r'.\logo\do-utilizador.png'))
     frm_inicial.label.resize(520,550)
     frm_inicial.show()

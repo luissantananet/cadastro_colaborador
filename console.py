@@ -181,6 +181,15 @@ def chamapesquisarRegistro2():
     frm_pesquisarRegistro.listWidget.clear()
     frm_pesquisarRegistro.listWidget_Registros.clear()
 
+    for i in range(len(dados)):
+        item = QtWidgets.QListWidgetItem(f"{dados[i][1]} - {dados[i][2]}")
+        frm_pesquisarRegistro.listWidget.addItem(item)
+    for y in range(len(dados_registro)):
+        item = QtWidgets.QListWidgetItem(f"{dados_registro[y][1]} - {dados_registro[y][2]}  - {dados[y][1]}")
+        frm_pesquisarRegistro.listWidget_Registros.addItem(item)
+    
+    frm_pesquisarRegistro.edt_pesquisar.textChanged.connect(filtrar_itens)
+    frm_pesquisarRegistro.show()
 def chamatabelas():
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
@@ -257,6 +266,7 @@ def salvaregistro():
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
+        cursor2 = banco.cursor()
         # cria tabela se nao existir
         cursor.execute("""CREATE TABLE IF NOT EXISTS registro (
         id integer PRIMARY KEY AUTOINCREMENT,
@@ -270,10 +280,13 @@ def salvaregistro():
         ad_vale decimal(5,2) NOT NULL,
         vale decimal(5,2) NOT NULL,
         subtotal decimal(5,2) NOT NULL,
-        total decimal(5,2) NOT NULL
-        );""")
-        if id == "":
-            cursor.execute("INSERT INTO tabela VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+advale+"','"+dias+"','"+he+"','"+sobtotal+"','"+total+"','"+vale+"','"+vr+"','"+vt+"',)")
+        total decimal(5,2) NOT NULL);""")
+        cursor2.execute("SELECT * FROM registro")
+        dados = cursor2.fetchall()
+        banco.commit()
+        id_ = len(dados)
+        if id_ == "":
+            cursor.execute("INSERT INTO registro VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"')")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
@@ -285,9 +298,9 @@ def salvaregistro():
             frm_registro.edt_vale.setText('')
             frm_registro.edt_vr.setText('')
             frm_registro.edt_vt.setText('')
-            QMessageBox.information(frm_registro, "Aviso", "Colaborador cadastrado com sucesso")
+            QMessageBox.information(frm_registro, "Aviso", "Registro cadastrado com sucesso")
         else:
-            cursor.execute("UPDATE tabela SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"', vr = '"+vr+"', vt = '"+vt+"',ad_vale = '"+advale+"' vale = '"+vale+"', subtotal = '"+sobtotal+"', total = '"+total+"'")
+            cursor.execute("UPDATE registro SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"', vr = '"+vr+"', vt = '"+vt+"',ad_vale = '"+advale+"' vale = '"+vale+"', subtotal = '"+sobtotal+"', total = '"+total+"'")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
@@ -299,7 +312,7 @@ def salvaregistro():
             frm_registro.edt_vale.setText('')
             frm_registro.edt_vr.setText('')
             frm_registro.edt_vt.setText('')
-            QMessageBox.information(frm_cadColab, "Aviso", "Colaborador atualizado com sucesso")
+            QMessageBox.information(frm_cadColab, "Aviso", "Registro atualizado com sucesso")
     except sqlite3.Error as erro:
         print("Erro ao cadastrar registro: ",erro)
 def limparregistro():
@@ -314,6 +327,25 @@ def limparregistro():
     frm_registro.edt_vt.setText('')
 def excluirregistro():
     pass
+def editar_registro(frm_pesquisarRegistro):
+    linha = frm_pesquisarRegistro.listWidget_Registros.currentRow()
+    cursor.execute("SELECT * FROM registro")
+    dados_lidos = cursor.fetchall()
+    cursor2 = banco.cursor()
+    valor_id = dados_lidos[linha][0]
+    cursor2.execute("SELECT * FROM registro WHERE id="+str(valor_id))
+    registro =cursor2.fetchall()
+    banco.commit()
+    frm_registro.edt_nome.setText(str(registro[0][3]))
+    frm_registro.edt_advale.setText(str(registro[0][4]))
+    frm_registro.edt_dias.setText(str(registro[0][5]))
+    frm_registro.edt_he.setText(str(registro[0][6]))
+    frm_registro.edt_subtotal.setText(str(registro[0][7]))
+    frm_registro.edt_total.setText(str(registro[0][8]))
+    frm_registro.edt_vale.setText(str(registro[0][9]))
+    frm_registro.edt_vr.setText(str(registro[0][10]))
+    frm_registro.edt_vt.setText(str(registro[0][11]))
+    frm_registro.show()
 def calcularRegistro():
     # +
     dias = str(frm_registro.edt_dias.text()).replace(',','.')
@@ -359,10 +391,10 @@ def chamacadfuncao():
     frm_funcao.show()
     frm_funcao.edt_funcao.setText("")
 def salvar_tabela():
-    diaria = float(frm_tabela.edt_diaria.text().replace(',','.')) # 85,00
-    hextra = float(frm_tabela.edt_hextra.text().replace(',','.')) # 16,00
-    vtrans = float(frm_tabela.edt_vtransp.text().replace(',','.')) # 12,30
-    vresf = float(frm_tabela.edt_vref.text().replace(',','.')) # 17,00
+    diaria = str(frm_tabela.edt_diaria.text().replace(',','.')) # 85,00
+    hextra = str(frm_tabela.edt_hextra.text().replace(',','.')) # 16,00
+    vtrans = str(frm_tabela.edt_vtransp.text().replace(',','.')) # 12,30
+    vresf = str(frm_tabela.edt_vref.text().replace(',','.')) # 17,00
     try:
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
         cursor = banco.cursor()
@@ -467,5 +499,9 @@ if __name__ == '__main__':
     frm_cadColab.comboBox_uf.addItems(uf["UF"])
     frm_cadColab.comboBox_cidade.addItems(cidade["cidade"])
     frm_cadColab.btn_salvar.clicked.connect(cadastro_colaborador)
+    # botões da tela Pesquisar registros
+    frm_pesquisarRegistro.btn_novo.clicked.connect(lambda: selecionar_colab(frm_pesquisarRegistro))
+    frm_pesquisarRegistro.btn_selecionar.clicked.connect(lambda: editar_registro(frm_pesquisarRegistro))
+    #frm_inicial.actionRelatrio_por_Colaborador.triggered.connect(lambda: chamapesquisarRegistro2(frm_pesquisarRegistro))
     frm_inicial.show()
     App.exec()
