@@ -571,6 +571,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLineEdit" name="edt_id">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>61</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>edt_nome</zorder>
    <zorder>btn_pesquisar</zorder>
    <zorder>label</zorder>
@@ -585,6 +598,7 @@
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_4</zorder>
+   <zorder>edt_id</zorder>
   </widget>
  </widget>
  <tabstops>

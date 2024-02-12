@@ -16,6 +16,7 @@ id_colab = 0
 # Criando o Bando de Dados
 banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
 cursor = banco.cursor()
+cursor2 =banco.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_user (id INTEGER PRIMARY KEY AUTOINCREMENT,nome varchar(100)NOT NULL,login varchar(100)NOT NULL, senha varchar(100)NOT NULL);")
 cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -29,8 +30,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador (
         bairro varchar(100), 
         cidade varchar(100), 
         uf varchar(2));""")
-cursor.execute(f"SELECT * FROM cadastro_user where login='adm';")
-nome = cursor.fetchall()
+cursor2.execute(f"SELECT * FROM cadastro_user where login='adm';")
+nome = cursor2.fetchall()
 nome_ = len(nome)
 if nome_ == 0:
     cursor.execute("INSERT INTO cadastro_user VALUES(1, 'administrador', 'adm', 'adm');")
@@ -217,17 +218,45 @@ def pesquisar_colab():
 
 def selecionar_colab(frm_pesquisarColab):
     linha = frm_pesquisarColab.listWidget.currentRow()
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
     cursor = banco.cursor()
+    cursor2 = banco.cursor()
     cursor.execute("SELECT * FROM cadastro_colaborador")
     dados_lidos = cursor.fetchall()
     banco.commit()
     valor_id = dados_lidos[linha][0]
-    cursor.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
-    colab = cursor.fetchall()
+    cursor2.execute("SELECT * FROM cadastro_colaborador WHERE id="+str(valor_id))
+    colab = cursor2.fetchall()
     frm_pesquisarColab.close()
     frm_registro.show()
+    try:
+        cursor3 = banco.cursor()
+        cursor3.execute("SELECT * FROM tabela")
+        dados_lidos = cursor3.fetchall()
+        tables = len(dados_lidos)
+        banco.commit()
+        if tables == 0:
+            frm_registro.edt_diaria.setText('')
+            frm_registro.edt_hextra.setText('')
+            frm_registro.edt_vtransp.setText('')
+            frm_registro.edt_vref.setText('')
+        else:
+            frm_registro.edt_diaria.setText(str('%.2f'%dados_lidos[0][1]).replace('.',','))
+            frm_registro.edt_hextra.setText(str('%.2f'%dados_lidos[0][2]).replace('.',','))
+            frm_registro.edt_vtransp.setText(str('%.2f'%dados_lidos[0][3]).replace('.',','))
+            frm_registro.edt_vref.setText(str('%.2f'%dados_lidos[0][4]).replace('.',','))
+    except sqlite3.Error as erro:
+        print("Erro ao inserir os dados: ",erro)
+    banco.close()
     frm_registro.edt_nome.setText(str(colab[0][1]))
-
+    frm_registro.edt_advale.setText('')
+    frm_registro.edt_dias.setText('')
+    frm_registro.edt_he.setText('')
+    frm_registro.edt_subtotal.setText('')
+    frm_registro.edt_total.setText('')
+    frm_registro.edt_vale.setText('')
+    frm_registro.edt_vr.setText('')
+    frm_registro.edt_vt.setText('')
 def editar_colab(frm_pesquisarColab):
     global id_colab
     linha =frm_pesquisarColab.listWidget.currentRow()
@@ -264,6 +293,7 @@ def salvaregistro():
     vr = frm_registro.edt_vr.text()
     vt = frm_registro.edt_vt.text()
     try:
+        ids = frm_registro.edt_id.text()
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
         cursor2 = banco.cursor()
@@ -284,9 +314,9 @@ def salvaregistro():
         cursor2.execute("SELECT * FROM registro")
         dados = cursor2.fetchall()
         banco.commit()
-        id_ = len(dados)
-        if id_ == "":
-            cursor.execute("INSERT INTO registro VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"')")
+        id_ = dados[ids][0]
+        if id_ == 0:
+            cursor.execute("INSERT INTO registro VALUES('"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"');")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
@@ -300,7 +330,7 @@ def salvaregistro():
             frm_registro.edt_vt.setText('')
             QMessageBox.information(frm_registro, "Aviso", "Registro cadastrado com sucesso")
         else:
-            cursor.execute("UPDATE registro SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"', vr = '"+vr+"', vt = '"+vt+"',ad_vale = '"+advale+"' vale = '"+vale+"', subtotal = '"+sobtotal+"', total = '"+total+"'")
+            cursor.execute("UPDATE registro SET data_inicial = '"+datainicial+"', data_final = '"+datafinal+"',nome_completo = '"+nome+"',dias_tr = '"+dias+"', he = '"+he+"', vr = '"+vr+"', vt = '"+vt+"',ad_vale = '"+advale+"', vale = '"+vale+"', subtotal = '"+sobtotal+"', total = '"+total+"'")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
@@ -329,6 +359,7 @@ def excluirregistro():
     pass
 def editar_registro(frm_pesquisarRegistro):
     linha = frm_pesquisarRegistro.listWidget_Registros.currentRow()
+    banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
     cursor.execute("SELECT * FROM registro")
     dados_lidos = cursor.fetchall()
     cursor2 = banco.cursor()
@@ -336,6 +367,7 @@ def editar_registro(frm_pesquisarRegistro):
     cursor2.execute("SELECT * FROM registro WHERE id="+str(valor_id))
     registro =cursor2.fetchall()
     banco.commit()
+    frm_registro.edt_id.setText(str(registro[0][0]))
     frm_registro.edt_nome.setText(str(registro[0][3]))
     frm_registro.edt_advale.setText(str(registro[0][4]))
     frm_registro.edt_dias.setText(str(registro[0][5]))
@@ -453,7 +485,15 @@ def chamaregistro():
         print("Erro ao inserir os dados: ",erro)
     banco.close()
     frm_registro.show()
-
+    frm_registro.edt_id.setText('')
+    frm_registro.edt_advale.setText('')
+    frm_registro.edt_dias.setText('')
+    frm_registro.edt_he.setText('')
+    frm_registro.edt_subtotal.setText('')
+    frm_registro.edt_total.setText('')
+    frm_registro.edt_vale.setText('')
+    frm_registro.edt_vr.setText('')
+    frm_registro.edt_vt.setText('')
 if __name__ == '__main__':
     App = QtWidgets.QApplication([])
     frm_inicial = uic.loadUi(r'.\frms\frm_principal.ui')

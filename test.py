@@ -47,3 +47,6 @@ banco.commit()
 #print(regist)
 print(dados_lidos)
 
+
+
+
