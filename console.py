@@ -30,6 +30,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador (
         bairro varchar(100), 
         cidade varchar(100), 
         uf varchar(2));""")
+# cria tabela se nao existir
+#cursor.execute("""CREATE TABLE IF NOT EXISTS registro ( id integer PRIMARY KEY AUTOINCREMENT,data_inicial date() NOT NULL,data_final date() NOT NULL,nome_completo varchar(100) NOT NULL,dias_tr decimal(5,2) NOT NULL,he decimal(5,2) NOT NULL,vr decimal(5,2) NOT NULL, vt decimal(5,2) NOT NULL,ad_vale decimal(5,2) NOT NULL,vale decimal(5,2) NOT NULL,subtotal decimal(5,2) NOT NULL,total decimal(5,2) NOT NULL);""")
 cursor2.execute(f"SELECT * FROM cadastro_user where login='adm';")
 nome = cursor2.fetchall()
 nome_ = len(nome)
@@ -297,20 +299,6 @@ def salvaregistro():
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
         cursor2 = banco.cursor()
-        # cria tabela se nao existir
-        cursor.execute("""CREATE TABLE IF NOT EXISTS registro (
-        id integer PRIMARY KEY AUTOINCREMENT,
-        data_inicial date()NOT NULL,
-        data_final date()NOT NULL,
-        nome_completo varchar(100)NOT NULL,
-        dias_tr decimal(5,2) NOT NULL,
-        he decimal(5,2) NOT NULL,
-        vr decimal(5,2) NOT NULL,
-        vt decimal(5,2) NOT NULL,
-        ad_vale decimal(5,2) NOT NULL,
-        vale decimal(5,2) NOT NULL,
-        subtotal decimal(5,2) NOT NULL,
-        total decimal(5,2) NOT NULL);""")
         cursor2.execute("SELECT * FROM registro")
         dados = cursor2.fetchall()
         banco.commit()
