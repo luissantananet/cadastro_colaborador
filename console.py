@@ -17,6 +17,7 @@ id_colab = 0
 banco = sqlite3.connect(r'.\dados\banco_cadastro.db') 
 cursor = banco.cursor()
 cursor2 =banco.cursor()
+cursor3 = banco.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_user (id INTEGER PRIMARY KEY AUTOINCREMENT,nome varchar(100)NOT NULL,login varchar(100)NOT NULL, senha varchar(100)NOT NULL);")
 cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -31,7 +32,19 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS cadastro_colaborador (
         cidade varchar(100), 
         uf varchar(2));""")
 # cria tabela se nao existir
-#cursor.execute("""CREATE TABLE IF NOT EXISTS registro ( id integer PRIMARY KEY AUTOINCREMENT,data_inicial date() NOT NULL,data_final date() NOT NULL,nome_completo varchar(100) NOT NULL,dias_tr decimal(5,2) NOT NULL,he decimal(5,2) NOT NULL,vr decimal(5,2) NOT NULL, vt decimal(5,2) NOT NULL,ad_vale decimal(5,2) NOT NULL,vale decimal(5,2) NOT NULL,subtotal decimal(5,2) NOT NULL,total decimal(5,2) NOT NULL);""")
+cursor.execute("""CREATE TABLE IF NOT EXISTS registro ( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        data_inicial date NOT NULL, 
+        data_final date NOT NULL,
+        nome_completo varchar(100) NOT NULL,
+        dias_tr decimal(5,2) NOT NULL,
+        he decimal(5,2) NOT NULL,
+        vr decimal(5,2) NOT NULL,
+        vt decimal(5,2) NOT NULL,
+        ad_vale decimal(5,2) NOT NULL,
+        vale decimal(5,2) NOT NULL,
+        subtotal decimal(5,2) NOT NULL,
+        total decimal(5,2) NOT NULL);""")
 cursor2.execute(f"SELECT * FROM cadastro_user where login='adm';")
 nome = cursor2.fetchall()
 nome_ = len(nome)
@@ -298,11 +311,7 @@ def salvaregistro():
         ids = frm_registro.edt_id.text()
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
-        """cursor2 = banco.cursor()
-        cursor2.execute("SELECT * FROM registro")
-        dados = cursor2.fetchall()"""
         banco.commit()
-        #id_ = dados[ids][0]
         if ids == "":
             cursor.execute("INSERT INTO registro VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"');")
             banco.commit()
@@ -357,14 +366,14 @@ def editar_registro(frm_pesquisarRegistro):
     banco.commit()
     frm_registro.edt_id.setText(str(registro[0][0]))
     frm_registro.edt_nome.setText(str(registro[0][3]))
-    frm_registro.edt_advale.setText(str(registro[0][4]))
-    frm_registro.edt_dias.setText(str(registro[0][5]))
-    frm_registro.edt_he.setText(str(registro[0][6]))
-    frm_registro.edt_subtotal.setText(str(registro[0][7]))
-    frm_registro.edt_total.setText(str(registro[0][8]))
-    frm_registro.edt_vale.setText(str(registro[0][9]))
-    frm_registro.edt_vr.setText(str(registro[0][10]))
-    frm_registro.edt_vt.setText(str(registro[0][11]))
+    frm_registro.edt_dias.setText(str(registro[0][4]))
+    frm_registro.edt_he.setText(str(registro[0][5]))
+    frm_registro.edt_vr.setText(str(registro[0][6]))
+    frm_registro.edt_vt.setText(str(registro[0][7]))
+    frm_registro.edt_vale.setText(str(registro[0][8]))
+    frm_registro.edt_advale.setText(str(registro[0][9]))
+    frm_registro.edt_subtotal.setText(str(registro[0][10]))
+    frm_registro.edt_total.setText(str(registro[0][11]))
     frm_registro.show()
 def calcularRegistro():
     # +
