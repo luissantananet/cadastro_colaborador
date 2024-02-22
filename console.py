@@ -298,13 +298,13 @@ def salvaregistro():
         ids = frm_registro.edt_id.text()
         banco = sqlite3.connect(r'.\dados\banco_cadastro.db')
         cursor = banco.cursor()
-        cursor2 = banco.cursor()
+        """cursor2 = banco.cursor()
         cursor2.execute("SELECT * FROM registro")
-        dados = cursor2.fetchall()
+        dados = cursor2.fetchall()"""
         banco.commit()
-        id_ = dados[ids][0]
-        if id_ == 0:
-            cursor.execute("INSERT INTO registro VALUES('"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"');")
+        #id_ = dados[ids][0]
+        if ids == "":
+            cursor.execute("INSERT INTO registro VALUES(NULL,'"+datainicial+"','"+datafinal+"','"+nome+"','"+dias+"','"+he+"','"+vr+"','"+vt+"','"+advale+"','"+vale+"','"+sobtotal+"','"+total+"');")
             banco.commit()
             banco.close()
             frm_registro.edt_nome.setText('')
